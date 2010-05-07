@@ -1,22 +1,25 @@
 <%- column_div :type => :primary do -%>
-  <h2>New gallery</h2>
+  <h2><%=t ('gallery.new_gallery') %></h2>
 
   <%- form_for(@gallery) do |f| -%>
     <div class="form_row">
-      <label for="title">Title</label>
+      <%= f.label t('gallery.title') %>
       <%= f.text_field :title %>
     </div>
     
     <%= set_focus_to "gallery_title" %>
 
     <div class="form_row">
-      <label for="description">Description</label>
+      <%= f.label t('gallery.description') %>
       <%= f.text_area :description, :rows => 5 %>
     <div>
 
+    <%= hidden_field_tag :parent, params[:group_id].nil? ? "person" : "group"  %>
+    <%= hidden_field_tag :parent_id, params[:group_id].nil? ? params[:person_id] : params[:group_id] %>
+
     <div class="form_row">
-      <%= f.submit "Create", :class => "button" %>
-      <%= link_to "Cancel", person_galleries_path(current_person) %>
+      <%= f.submit t('global.create'), :class => "button" %>
+      <%= link_to t('global.cancel'), person_galleries_path(current_person) %>
     </div>
   <%- end -%>
 <%- end -%>

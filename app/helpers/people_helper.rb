@@ -60,7 +60,7 @@ module PeopleHelper
   end
   
   def activated_status(person)
-    person.deactivated? ? "Activate" : "Deactivate"
+    person.deactivated? ? t('person.activate') : t('person.deactivate')
   end
   
   private

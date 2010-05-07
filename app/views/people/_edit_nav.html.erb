@@ -1,0 +1,6 @@
+<ul id="message-nav">
+  <%= list_link_with_active "Personal", edit_person_path %>
+  <%= list_link_with_active "Company", edit_person_path(@person, :edit=> 'company') %>
+  <%= list_link_with_active "Photos", edit_person_path(@person, :edit=> 'photos') %>
+  <%= list_link_with_active "Password", edit_person_path(@person, :edit=> 'password') %>
+</ul>

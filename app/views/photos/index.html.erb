@@ -1,8 +1,8 @@
 <%- column_div :type => :primary, :id => 'photos' do -%>
   <% if !@photos.empty? %>
-    <h2><%= current_person.name %>'s Photos</h2>
+    <h2><%=t ('photo.persons_photos', :person => current_person.name) %></h2>
     <div class="button_container">
-        <div class="button"><%= link_to "Add Photo", new_photo_path() %></div>
+        <div class="button"><%= link_to t('photo.add_photo'), new_photo_path() %></div>
         <div class="clear"></div>
     </div>
     <ul class="">
@@ -10,6 +10,6 @@
     </ul>
   </div>
   <% else %>
-    <h2>No Photos to Show</h2>
+    <h2><%= t('photo.no_photos_to_show') %></h2>
   <% end %>
 <% end %>

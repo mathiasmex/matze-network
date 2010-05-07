@@ -1,10 +1,10 @@
 <%- unless current_person.recent_messages.empty? -%>
-  <h2>Messages</h2>
+  <h2><%=t ('message.messages') %></h2>
   <ul class="list messages small">
     <%= render :partial => 'message',
                :collection => current_person.recent_messages %>
   <li class="more">
-    <%= link_to "All messages &raquo;", messages_path %>
+    <%= link_to t('message.all_messages'), messages_path %>
   </li>
   </ul>
 <%- end -%>

@@ -1,32 +1,32 @@
-<h1>Editing comment</h1>
+<h1><%=t ('comment.editing_comment') %></h1>
 
 <%= error_messages_for :comment %>
 
 <% form_for(@comment) do |f| %>
   <p>
-    <b>Person</b><br />
+    <b><%=t ('comment.person') %></b><br />
     <%= f.text_field :person_id %>
   </p>
 
   <p>
-    <b>Blog</b><br />
+    <b><%=t ('comment.blog') %></b><br />
     <%= f.text_field :blog_id %>
   </p>
 
   <p>
-    <b>Body</b><br />
+    <b><%=t ('comment.body') %></b><br />
     <%= f.text_area :body %>
   </p>
 
   <p>
-    <b>Type</b><br />
+    <b><%=t ('comment.type') %></b><br />
     <%= f.text_field :type %>
   </p>
 
   <p>
-    <%= f.submit "Update" %>
+    <%= f.submit t('global.update') %>
   </p>
 <% end %>
 
-<%= link_to 'Show', @comment %> |
-<%= link_to 'Back', comments_path %>
+<%= link_to t('global.show'), @comment %> |
+<%= link_to t('global.back'), comments_path %>

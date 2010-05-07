@@ -4,7 +4,7 @@
     <%= render :partial => 'forum_post', :collection => @posts %>
   </ul>
 
-  <h2>Add Reply</h2>
+  <h2><%=t ('topic.add_reply') %></h2>
 
   <p><%= formatting_note %></p>
 
@@ -17,12 +17,12 @@
     </div>
 
     <div class="form_row">
-      <%= f.submit "Submit", :class => "button" %>
+      <%= f.submit t('global.submit'), :class => "button" %>
     </div>
   <% end %>
 
 <%- end -%>
 
 <%- column_div :type => :secondary do -%>
-  <%= render :partial => 'shared/minifeed' %>
+  <%= render :partial => 'searches/box' %>
 <%- end -%>

@@ -1,46 +1,48 @@
 <%- column_div :type => :primary do -%>
-  <h2>Sign in</h2>
+  <h2><%=t ('session.sign_in') %></h2>
 
   <% form_tag session_path do -%>
     <div id="standard">
         <div class="form_row">
-          <label for="email">Email address</label>
+          <label for="email"><%=t ('session.email') %></label>
           <%= text_field_tag 'email', params[:email],
                              :maxlength => Person::MAX_EMAIL  %>
         </div>
         <%= set_focus_to "email" %>
 
         <div class="form_row">
-          <label for="password">Password</label>
+          <label for="password"><%=t ('session.password') %></label>
           <%= password_field_tag 'password', params[:password],
                                  :maxlength => Person::MAX_PASSWORD %>
         </div>
     </div>
     <div class="form_row" id="openid">
-      <label for="openid_url">OpenID</label>
+      <label for="openid_url"><%=t ('session.open_id') %></label>
       <%= text_field_tag "openid_url" %>
     </div>
 
     <div class="form_row">
-      <label for="remember_me" class="checkbox">Remember me:</label>
+      <label for="remember_me" class="checkbox"><%=t ('session.remember_me') %></label>
       <%= check_box_tag 'remember_me', '1', true, :class => "checkbox" %>
     </div>
 
-    <div class="form_row">
-      <%= submit_tag 'Sign in', :class => "button" %>
+    <div class="form_row" id="sign_in">
+      <%= submit_tag t('session.sign_in'), :class => "button" %>
+      <%= link_to t('session.or_sign_up'), signup_path %> <br />
     </div>
 
-<div style="text-align: center; font-size: 12px; padding: 10px;">
-  <%= link_to "or Sign up", signup_path %> <br />
-  <%- if global_prefs.can_send_email? -%>
-    <%= link_to "I forgot my password!", new_password_reminder_path %> ::
-  <%- end -%>
+    <div style="text-align: center; font-size: 12px; padding: 10px;">
+    <%- if global_prefs.can_send_email? -%>
+      <%= link_to t('password_reminder.forgot_password'), new_password_reminder_path %>
+    <br />
+    <%- end -%>
     <span id="noscript" style="display:none;">
-        <span id="openid_link"><a href="#" onclick="show_openid(); return false;">Login using OpenID</a></span>
-        <span id="standard_link"><a href="#" onclick="show_standard(); return false;">Back to Regular Login</a></span>
+        <span id="openid_link"><a href="#" onclick="show_openid(); return false;">
+          <%=t ('session.login_with_open_id') %></a></span>
+        <span id="standard_link"><a href="#" onclick="show_standard(); return false;">
+          <%=t ('session.back_to_regular_login') %></a></span>
     </span>
-
-</div>
+    </div>
   <% end -%>
 <%- end -%>
 <script type='text/javascript'>

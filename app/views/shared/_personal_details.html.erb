@@ -1,5 +1,5 @@
 <%- column_div :type => :primary do -%>
-  <h2>Edit Personal Info</h2>
+  <h2><%=t ('person.edit_personal_info') %></h2>
 
   <%= error_messages_for :personal_details %>
 
@@ -7,8 +7,8 @@
 
   <div class="form_row">
     <label for="email">
-      Email address <span class="small">(never made
-      public<%= ", will be verified" if global_prefs.email_verifications? %>)
+      <%=t ('person.email') %><span class="small">(<%= t('person.never_made_public') %>
+      <%= ", " + t('person.will_be_verified') if global_prefs.email_verifications? %>)
       </span>
     </label>
     <%= f.text_field :email, :maxlength => Person::MAX_EMAIL %>
@@ -16,13 +16,13 @@
   </div>
 
   <div class="form_row">
-    <label for="name">Name 
-      <span class="small">(will be displayed)</span></label>
+    <label for="name"><%=t ('person.name') %>
+      <span class="small"><%=t ('person.will_be_displayed') %></span></label>
     <%= f.text_field :name, :maxlength => Person::MAX_NAME %>
   </div>
 
   <div class="form_row">
-    <%= submit_tag 'Sign up', :class => "button" %>
+    <%= submit_tag t('person.sign_up'), :class => "button" %>
   </div>
   <% end %>
 <%- end -%>

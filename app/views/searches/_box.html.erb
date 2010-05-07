@@ -1,10 +1,13 @@
-<h2>Search <%= search_type %></h2>
+<h2><%= search_type %></h2>
 <% form_tag searches_path, :method => :get, :id => "frmSearch" do %>
-  <fieldset title="Search Insoshi">
+  <fieldset title=<%=t('search.search')%>>
     <%= text_field_tag :q, h(params[:q]), :id => "txtSearch", :class => "txt",
                                           :maxlength => 50 %>
-    <%= submit_tag "Search", :name => nil, :id => "btnSearch",
+    <%= submit_tag t('search.search'), :name => nil, :id => "btnSearch",
                              :class => "button"  %>
     <%= hidden_field_tag "model", search_model %>
+    <%- if search_model == 'Contacts' -%>
+      <%= hidden_field_tag "person_id", params[:person_id] %>
+    <%- end -%>
   </fieldset>
 <% end %>

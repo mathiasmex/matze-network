@@ -1,6 +1,6 @@
 <%- column_div :type => :primary do -%>
   <% unless @people.empty? -%>
-    <h2>People</h2>
+    <h2><%=t ('person.people') %></h2>
     <%= will_paginate %>
     <ul class="list people">
       <%= render :partial => @people %>

@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
     
     respond_to do |format|
       if @comment.save
-        flash[:success] = 'Comment was successfully created.'
+        flash[:success] = t('flash.comment_created')
         format.html { redirect_to comments_url }
       else
         format.html { render :action => resource_template("new") }
@@ -44,7 +44,7 @@ class CommentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      flash[:success] = "Comment deleted"
+      flash[:success] = t('flash.comment_destroyed')
       format.html { redirect_to comments_url }
     end
   end
@@ -66,7 +66,7 @@ class CommentsController < ApplicationController
       if wall?
         @person
       elsif blog?
-        @blog.person 
+        @blog.owner
       elsif event?
         @event.person
       end
@@ -76,7 +76,7 @@ class CommentsController < ApplicationController
     def connection_required
       if wall?
         unless connected_to?(person)
-          flash[:notice] = "You must be contacts to complete that action"
+          flash[:notice] = t('flash.must_be_contacts')
           redirect_to @person
         end
       end
@@ -86,6 +86,8 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
       if wall?
         current_person?(person) or current_person?(@comment.commenter)
+      elsif group_wall?
+        @comment.commentable.owner?(current_person) or current_person?(@comment.commenter)
       elsif blog?
         current_person?(person)
       end
@@ -112,6 +114,8 @@ class CommentsController < ApplicationController
     def parent
       if wall?
         @person
+      elsif group_wall?
+        Group.find(params[:group_id])
       elsif blog?
         @post
       elsif event?
@@ -129,6 +133,8 @@ class CommentsController < ApplicationController
     def resource
       if wall?
         "wall"
+      elsif group_wall?
+        "group_wall"
       elsif blog?
         "blog_post"
       elsif event?
@@ -140,6 +146,8 @@ class CommentsController < ApplicationController
     def comments_url
       if wall?
         (person_url @person)+'#tWall'  # go directly to comments tab
+      elsif group_wall?
+        (group_url @comment.commentable)+'#tWall'  # go directly to comments tab
       elsif blog?
         blog_post_url(@blog, @post)
       elsif event?
@@ -152,6 +160,10 @@ class CommentsController < ApplicationController
       !params[:person_id].nil?
     end
 
+    def group_wall?
+      !params[:group_id].nil?
+    end
+
     # True if resource lives in a blog.
     def blog?
       !params[:blog_id].nil?
@@ -160,4 +172,5 @@ class CommentsController < ApplicationController
     def event?
       !params[:event_id].nil?
     end
+
 end

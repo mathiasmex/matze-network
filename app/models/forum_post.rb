@@ -32,6 +32,6 @@ class ForumPost < Post
   private
   
     def log_activity
-      add_activities(:item => self, :person => person)
+      add_activities(:item => self, :owner => person)
     end
 end

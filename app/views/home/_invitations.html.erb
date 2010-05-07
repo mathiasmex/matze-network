@@ -1,0 +1,23 @@
+<%- unless @invitations.empty? -%>
+  <h2><%=t ('groups.invitations_for_groups') %></h2>
+  <ul class="list requests small">
+    <%- @invitations.each do |invitation| -%>
+      <%- mem = Membership.mem(current_person, invitation.group) -%>
+      <li>
+        <div class="profile-image">
+          <%= image_link invitation.group %>
+        </div>
+        <p><%=t ('group.invitation_for_group') %><br />
+        <%= group_link invitation.group %></p>
+        <p class="meta published">
+          <%= t('global.ago', :time_ago => time_ago_in_words(invitation.created_at)) %>
+          <%=t ('message.received') %>
+        </p>
+        <p>
+          <%= link_to t('connection.respond'), edit_membership_path(mem) %> |
+          <%= link_to t('group.view_group'), group_path(invitation.group) %>
+        </p>
+      </li>
+    <%- end -%>
+  </ul>
+<%- end -%>

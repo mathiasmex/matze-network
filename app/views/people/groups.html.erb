@@ -1,0 +1,23 @@
+<%- column_div :type => :primary do -%>
+  <h2><%= (params[:action] == 'admin_groups' ? "Admin " : "" ) + "Groups" %> 
+    for <%= h @person.name %></h2>
+  
+  <% if @groups.count > Person::MAX_DEFAULT_CONTACTS %>
+    <%= will_paginate @some_groups %>
+  <% end %>
+  
+  <%= render :partial => 'groups', 
+    :locals => {:groups => @some_groups, :some_groups => @some_groups} %>
+  
+  <% if @groups.count > Person::MAX_DEFAULT_CONTACTS %>
+    <%= will_paginate @some_groups %>
+  <% end %>
+  <%- if params[:action] == 'admin_groups' -%>
+    <p><%= link_to 'New group', new_group_path() %></p>
+  <%- end -%>
+  
+<%- end -%>
+
+<%- column_div :type => :secondary do -%>
+  <%= render :partial => 'searches/box' %>
+<%- end -%>

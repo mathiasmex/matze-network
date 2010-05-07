@@ -1,0 +1,711 @@
+# German translations for Ruby on Rails 
+# by Clemens Kofler (clemens@railway.at)
+# adapted for Insoshi by Mathias Sasse (info@matze-msh.eu)
+
+de:
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%e. %b"
+      long: "%e. %B %Y"
+      only_day: "%e"
+
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
+    month_names: [~, Januar, Februar, M&auml;rz, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+    abbr_month_names: [~, Jan, Feb, M&auml;r, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
+    order: [ :day, :month, :year ]
+    next_month:        "{{month_name}}"
+    previous_month:    "{{month_name}}"
+ 
+  time:
+    formats:
+      default: "%A, %d. %B %Y, %H:%M Uhr"
+      short: "%d. %B, %H:%M Uhr"
+      long: "%A, %d. %B %Y, %H:%M Uhr"
+      time: "%H:%M"
+
+    am: "vormittags"
+    pm: "nachmittags"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: 'eine halbe Minute'
+      less_than_x_seconds:
+        zero: 'weniger als 1 Sekunde'
+        one: 'weniger als 1 Sekunde'
+        other: 'weniger als {{count}} Sekunden'
+      x_seconds:
+        one: '1 Sekunde'
+        other: '{{count}} Sekunden'
+      less_than_x_minutes:
+        zero: 'weniger als 1 Minute'
+        one: 'weniger als eine Minute'
+        other: 'weniger als {{count}} Minuten'
+      x_minutes:
+        one: '1 Minute'
+        other: '{{count}} Minuten'
+      about_x_hours:
+        one: 'vor 1 Stunde'
+        other: 'vor {{count}} Stunden'
+      x_days:
+        one: 'Vor 1 Tag'
+        other: 'vor {{count}} Tagen'
+      about_x_months:
+        one: 'etwa 1 Monat'
+        other: 'etwa {{count}} Monate'
+      x_months:
+        one: '1 Monat'
+        other: '{{count}} Monate'
+      about_x_years:
+        one: 'etwa 1 Jahr'
+        other: 'etwa {{count}} Jahre'
+      over_x_years:
+        one: 'mehr als 1 Jahr'
+        other: 'mehr als {{count}} Jahre'
+    prompts:
+      second: "Sekunden"
+      minute: "Minuten"
+      hour: "Stunden"
+      day: "Tag"
+      month: "Monat"
+      year: "Jahr"
+
+  number:
+    format:
+      precision: 2
+      separator: ','
+      delimiter: '.'
+    currency:
+      format:
+        unit: '&euro;'
+        format: '%n%u'
+        separator: 
+        delimiter: 
+        precision: 
+    percentage:
+      format:
+        delimiter: ""
+    precision:
+      format:
+        delimiter: ""
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " und "
+      last_word_connector: " und "
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "Konnte dieses {{model}} Objekt nicht speichern: 1 Fehler."
+          other:  "Konnte dieses {{model}} Objekt nicht speichern: {{count}} Fehler."
+        body: "Bitte &uuml;berpr&uuml;fen Sie die folgenden Felder:"
+
+      messages:
+        inclusion: "ist kein g&uuml;ltiger Wert"
+        exclusion: "ist nicht verf&uuml;gbar"
+        invalid: "ist nicht g&uuml;ltig"
+        confirmation: "stimmt nicht mit der Best&auml;tigung &uuml;berein"
+        accepted: "muss akzeptiert werden"
+        empty: "muss ausgef&uuml;llt werden"
+        blank: "muss ausgef&uuml;llt werden"
+        too_long: "ist zu lang (nicht mehr als {{count}} Zeichen)"
+        too_short: "ist zu kurz (mindestens {{count}} Zeichen)"
+        wrong_length: "hat die falsche L&auml;nge (muss genau {{count}} Zeichen haben)"
+        taken: "ist bereits vergeben"
+        not_a_number: "ist keine Zahl"
+        greater_than: "muss gr&ouml;&szlig;er als {{count}} sein"
+        greater_than_or_equal_to: "muss gr&ouml;&szlig;er oder gleich {{count}} sein"
+        equal_to: "muss genau {{count}} sein"
+        less_than: "muss kleiner als {{count}} sein"
+        less_than_or_equal_to: "muss kleiner oder gleich {{count}} sein"
+        odd: "muss ungerade sein"
+        even: "muss gerade sein"
+        record_invalid: "G&uuml;ltigkeitspr&uuml;fung ist fehlgeschlagen: {{errors}}"
+      models:
+
+  global:
+    applications:      "Direktlinks"
+    click_here:        "Hier klicken"
+    submit:            "Absenden"
+    cancel:            "Abbrechen"
+    preview:           "Vorschau"
+    create:            "Erstellen"
+    edit:              "Bearbeiten"
+    update:            "Aktualisieren"
+    upload:            "Hochladen"
+    save:              "Speichern"
+    delete:            "L&ouml;schen"
+    destroy:           "Verwerfen"
+    are_you_sure:      "Ganz sicher?"
+    see_all:           "Alle ansehen &raquo;"
+    show:              "Anzeigen"
+    back:              "Zur&uuml;ck"
+    the_site:          "Die Seite"
+    ago:               "{{time_ago}}"
+    demo_site:         "Dies ist eine Seite zu Demonstrationszwecken.<br/>
+                        Daten k&ouml;nnen ohne Warnung ge&auml;ndert oder gel&ouml;scht werden."
+    automated_message: "Bitte beachten: Dies ist eine automatisch generierte Nachricht.<br />
+                        Bitte nicht darauf antworten, da kein Mensch auf der anderen Seite sitzt."
+    thanks:            "Danke!"
+    or:                " oder "
+    warning:           "Warnung"
+    next:              "n&auml;chster"
+    previous:          "vorheriger"
+    starts_at:         "Startet am:"
+    ends_at:           "Endet am:"
+    go_to:             "Gehe zu den "
+    to_see_all:        ", um alle zu sehen."
+    
+  activity:
+    delete_activity_confirmation: "Soll diese Aktivit&ouml;t wirklich aus dem Profil gel&ouml;scht werden?"
+    delete_activity:              "Diese Aktivit&auml;t l&ouml;schen"
+    just_joined:                  "ist dem Netzwerk beigetreten"
+    person_joined:                "{{person}} ist dem Netzwerk beigetreten"
+    invalid_activity_type:        "Ung&uuml;ltiger Aktivit&auml;tentype {{activity}}"
+  
+  comment:
+    one:                                 "1 Kommentar"
+    other:                               "{{count}} Kommentare"
+    blog_comment:                        "Blog Kommentar"
+    wall_comment:                        "Pinnwand Kommentar"
+    new_blog_comment_notification:       "Es gibt einen neuen Kommentar von {{person}} im Blog:"
+    new_wall_comment_notification:       "Es gibt einen neuen Kommentar von {{person}} an der Pinnwand:"
+    listing_comments:                    "Kommentare auflisten"
+    leave_a_comment:                     "Kommentar hinterlassen"
+    delete_wall_comment:                 "Pinnwand-Kommentar l&ouml;schen"
+    delete_wall_comment_confirmation:    "Soll der Pinnwand-Kommentar wirklich gel&ouml;scht werden?"
+    new_comment:                         "Neuer Kommentar"
+    editing_comment:                     "Kommentar bearbeiten"
+    person:                              "Person"
+    blog:                                "Blog"
+    body:                                "Text"
+    type:                                "Type"
+    person_posted_comment:               "{{person}} hat einen Kommentar geschrieben"
+    comments:                            "Kommentare"
+    delete_comment:                      "Kommentar l&ouml;schen"
+    delete_comment_confirmation:         "Kommentar l&ouml;schen best&auml;tigen"
+    to_persons_blog_post:                "hat einen Kommentar zu {{person}} Blogeintrag {{blog_post}} gemacht"
+    to_owners_blog_post:                  "hat einen Kommentar zu {{owner}} Blogeintrag {{blog_post}} gemacht"
+    author_to_persons_blog_post:         "{{author}} hat einen Kommentar zu {{person}} {{person_blog_post}} {{blog_post}} gemacht"
+    author_to_owners_blog_post:          "{{author}} hat einen Kommentar zu {{owner}} {{owner_blog_post}} {{blog_post}} gemacht"
+    commented_on_activity:               "hat {{activity}} kommentiert"
+    person_commented_on_activity:        "{{person}} hat {{activity}} kommentiert"
+    commented_on_group_activity:         "hat {{activity}} kommentiert"
+    person_commented_on_group_activity:  "{{person}} hat {{activity}} kommentiert"
+    commented_on_organizer_event:        "hat {{organizer}} Veranstaltung {{event}} kommentiert" 
+    person_commented_on_organizer_event: "{{person}} hat {{organizer}} Veranstaltung {{event}} kommentiert" 
+    wall_comments:                       "Pinnwand-Kommentare"
+    blog_comments:                       "Blog Kommentare"
+    
+  connection:
+    contact_request:                "Kontaktanfrage"
+    contact_requests:               "Kontaktanfragen"
+    contact_request_from:           "Es gibt eine Kontaktanfrage von {{name}}"
+    respond:                        "Beantworten"
+    accept:                         "Akzeptieren"
+    decline:                        "Ablehnen"
+    contacts_for:                   "Kontakte von"
+    no_contacts_yet:                "(Noch) keine Kontakte"
+    new_connection:                 "Neue Verbindung"
+    person:                         "Person"
+    connection:                     "Verbindung"
+    status:                         "Status"
+    request_connection:             "Verbindung erfragen"
+    connected_notice:               "Ihr seid vernetzt!"
+    remove_connection:              "Verbindung trennen"
+    remove_connection_confirmation: "Soll diese Verbindung wirklich getrennt werden?"
+    contacted_you:                  "{{person}} hat Kontakt aufgenommen"
+    respond_to_request:             "Kontaktanfrage beantworten"
+    you_contacted:                  "{{person}} wurde kontaktiert"
+    must_be_connected_notice:       "es muss eine Verbindung zu {{person}} bestehen,
+                                     um einen Kommentar auf der Pinnwand zu hinterlassen."
+    connect_now:                    "Verbindung mit {{person}} jetzt herstellen"
+    new_request_notification:       "Es ist eine neue Kontaktanfrage von {{person}} angekommen"
+    connected_with_person:          "{{connected_with}} mit {{person}}"
+    persons_have_connected:         "{{person1}} und {{person2}} haben sich vernetzt"
+    
+  event:
+    calendar:                         "Kalender"
+    person_created_event:             "{{person}} hat eine neue Veranstaltung erstellt: {{event}}"
+    person_attending_organizer_event: "{{person}} nimmt an {{organizer}} Veranstaltung {{event}} teil"
+    attending_organizer_event:        "nimmt an {{organizer}} Veranstaltung {{event}} teil"
+    events:                           "Veranstaltungen"
+    show_all_events:                  "Alle Veranstaltungen anzeigen"
+    location:                         "Veranstaltungsort:"
+    events_location:                  "Veranstaltungsorte"
+    events_location_near_you:         "Veranstaltungsorte in der N&auml;he"
+    no_events_near_you:               "Keine Veranstaltungen in der N&auml;he."
+    title:                            "Titel"
+    description:                      "Beschreibung"
+    start_time:                       "Beginn der Veranstaltung (Datum / Uhrzeit)"
+    end_time:                         "Ende der Veranstaltung (Datum / Uhrzeit)"
+    reminder:                         "Erinnern?"
+    privacy:                          "&Ouml;ffentlich? (Bitte ausw&auml;hlen)"
+    public:                           "Öffentlich"
+    my_contacts:                      "Nur für meine Kontakte"
+    geolocate:                        "Lokalisieren"
+    new_event:                        "Neue Veranstaltung"
+    attendees:
+      one:                              "Person nimmt daran teil"
+      other:                            "Personen nehmen daran teil"
+    will_attend:                      "Ich m&ouml;chte daran teilnehmen"
+    will_not_attend:                  "Ich m&ouml;chte nicht mehr daran teilnehmen"
+    search_by_location:               "Veranstaltungsort suchen"
+    editing_event:                    "Veranstaltung bearbeiten"
+    listing_events:                   "Veranstaltungen auflisten"
+    add_new_event:                    "Veranstaltung hinzuf&uuml;gen"
+    listing_events_in:                "Veranstaltungen in "
+    distance:                         "Entfernung"
+    within:                           "im Umkreis von"
+    people_attending:                 "Personen, die an dieser Veranstaltung teilnehmen"
+    no_attendees_yet:                 "Diese Veranstaltung hat noch keine Teilnehmer"
+    
+  flash:
+    activity_deleted:                   "Aktivit&auml;t gel&ouml;scht"
+    company_created:                    "Firma wurde erfolgreich eingerichtet."
+    node_created:                       "Zweigstelle wurde erfolgreich eingerichtet."
+    company_updated:                    "Firma wurde erfolgreich aktualisiert"
+    forum_created:                      "Forum wurde erfolgreich eingerichtet."
+    forum_updated:                      "Forum wurde erfolgreich aktualisiert."
+    forum_destroyed:                    "Forum wurde erfolgreich entfernt."
+    at_least_one_forum:                 "es muss mindestens ein Forum eingetragen sein."
+    group_deleted:                      "Initiative wurde erfolgreich gel&ouml;scht."
+    action_failed:                      "Aktion konnte nicht ausgef&uuml;hrt werden"
+    person_updated:                     "{{person}} aktualisiert"
+    prefs_updated:                      "Einstellungen erfolgreich aktualisiert."
+    restart_server:                     "Bitte den Server neu starten, um die &Auml;derungen zu aktivieren"
+    admin_access_required:              "Hierf&uuml;r werden Administratorrechte ben&ouml;tigt"
+    email_is_default:                   "{{warning}}: die Email Adresse ist immer noch {{default_domain}}!<br />
+                                         <a href=\"{{edit_person}}\">Hier &auml;ndern</a>."
+    password_is_default:                "{{warning}}: das Passwort ist immer noch die Voreinstellung!<br />
+                                         <a href=\"{{edit_person}}\">hier &auml;ndern</a>."
+    comment_created:                    "Kommentar erfolgreich erstellt."
+    comment_destroyed:                  "Kommentar erfolgreich entfernt."
+    must_be_contacts:                   "es muss eine Verbindung bestehen, um diese Aktion auszuf&uuml;hren."
+    connection_request_sent:            "Anfrage der Verbingung abgeschickt!"
+    invalid_connection:                 "Ung&uuml;ltige Verbindung"
+    accepted_connection:                "<a href=\"{{person_link}}\">{{person_name}}</a> hat die Verbindung akzeptiert"
+    declined_connection:                "Verbindung wurde von {{person_name}} abgelehnt"
+    ended_connection:                   "Verbindung wurde von {{person_name}} beendet"
+    invalid_expired_connection_request: "Ung&uuml;ltige oder abgelaufene Anfrage f&uuml;r die Verbindung"
+    invalid_request_person_deactivated: "Ung&uuml;ltige Verbindungsanfrage: Die Person wurde deaktiviert"
+    event_created:                      "Veranstaltung wurde erfolgreich erstellt."
+    event_updated:                      "Veranstaltung wurde erfolgreich aktualisiert."
+    attending_event:                    "Teilnahme an der Veranstaltung best&auml;tigt."
+    attending_only_once:                "Man kann nur einmal teilnehmen."
+    not_attending_event:                "Teilnahme an der Veranstaltung nicht best&auml;tigt."
+    work_in_progress:                   "Diese Funktion befindet sich noch in Bearbeitung."
+    gallery_created:                    "Gallerie erfolgreich erstellt"
+    gallery_updated:                    "Gallerie erfolgreich aktualisiert"
+    at_least_one_gallery:               "Die letzte Gallerie kann nicht gel&ouml;scht werden"
+    gallery_destroyed:                  "Gallerie wurde erfolgreich gel&ouml;scht"
+    gallery_not_destroyed:              "Die Gallerie konnte nicht gel&ouml;scht werden"
+    gallery_not_found:                  "Gallerie nicht gefunden"
+    not_owner_of_gallery:               "Diese Gallerie geh&ouml;rt jemand anderem"
+    company_added:                      "Firma hinzugef&uuml;gt."
+    no_more_companies:                  "Es k&ouml;nnen keine Firmen mehr hinzugef&uuml;gt werden."
+    company_deleted:                    "Firma wurde erfolgreich gel&ouml;scht."
+    browser_does_not_support_uploading: "Der Browser unterst&uuml;tzt kein Hochladen von Dateien"
+    canceled_upload:                    "Das Hochladen wurde abgebrochen"
+    photo_scessfully_uploaded:          "Das Foto wurde erfolgreich hochgeladen"
+    photo_deleted_for_group:            "Das Foto der Initiative {{group}} erfolgreich gel&ouml;scht"
+    group_created:                      "Initiative wurde erfolgreich erstellt"
+    group_updated:                      "Initiative wurde erfolgreich aktualisiert"
+    group_destroyed:                    "Initiative wurde erfolgreich gel&ouml;scht"
+    group_no_contacts_or_invited_all:   "Es sind keine Kontakte vorhanden oder es wurden bereits alle eingeladen"
+    group_invited_some_contacts:        "Kontakte wurden in die Initiative {{name}} eingeladen"
+    message_sent:                       "Nachricht geschickt!"
+    message_trashed:                    "Die Nachricht ist im Papierkorb gelandet"
+    invalid_action:                     "Ung&uuml;tige Aktion"
+    message_restored:                   "Die Nachricht wurde im Posteingang wieder hergestellt"
+    invalid_email_address:              "Ung&uuml;lgige Email Adresse"
+    password_sent:                      "Das Passwort wurde zugeschickt"
+    person_not_active:                  "Diese Person ist nicht aktiv"
+    thanks_sign_up_verify_email:        "Danke f&uuml;r die Registrierung!<br />
+                                         Bitte Email Posteingang pr&uum;fen, um das Benutzerkonto zu aktivieren."
+    thanks_sign_up:                     "Danke f&uuml;r die Registrierung!"
+    invalid_email_verification_code:    "Ung&uuml;ltiger Email Best&auml;tigungscode"
+    verified_active:                    "Email best&auml;tigt. Das Konto ist aktiv!"
+    profile_updated:                    "Profil aktualisiert!"
+    no_password_change_in_demo:         "Passw&ouml;rter k&ouml;nnen in der Demoversion nicht ge&auml;ndert werden."
+    password_changed:                   "Passwort ge&auml;ndert."
+    browser_no_file_upload:             "Der benutzte Browser unterst&uuml;tzt anscheinend kein Hochladen von Dateien"
+    photo_uploaded:                     "Foto erfolgreich hochgeladen"
+    photo_updated:                      "Foto erfolgreich aktualisiert"
+    photo_deleted:                      "Foto erfolgreich gel&ouml;scht"
+    gallery_thumbnail_set:              "Das Miniaturbild der Gallerie wurde gesetzt"
+    invalid_image:                      "Ung&uuml;ltges Bild!"
+    profile_photo_set:                  "Das Profilfoto wurde gesetzt"
+    no_photo_without_gallery:           "Um ein Foto hinzuzuf&uuml;gen, muss zuerst eine Gallerie ausgew&auml;hlt werden"
+    no_photo_to_gallery:                "Zu dieser Gallerie lassen sich keine Fotos hinzuf&uuml;gen"
+    post_created:                       "Beitrag erfolgreich erstellt"
+    post_updated:                       "Beitrag erfolgreich aktualisiert"
+    post_destroyed:                     "Beitrag erolgreich enfernt"
+    invalid_search:                     "Ung&uuml;ltige Suche"
+    invalid_search_query:               "Ung&uuml;ltige Suchabfrage"
+    open_id_profile_problems:           "es existiert folgendes Problem mit dem angegebenen OpenID Profil:<br>"
+    account_deactivated:                "Dieses Konto wurde deaktiviert!"
+    activation_failed:                  "Autorisierung fehlgeschlagen."
+    logged_in:                          "Anmeldung erfolgreich"
+    unverified_email:                   "Nicht best&auml;tigte Email Adresse.<br />
+                                         Bitte den Email Posteingang f&uuml;r den aktivierungscode pr&uuml;fen."
+    invalid_email_password:             "Ung&uuml;ltige Email/Passwort Kombination"
+    logged_out:                         "Abmeldung erfolgreich."
+    topic_created:                      "Thema erfolgreich erstellt"
+    topic_updated:                      "Thema erfolgreich aktualisiert"
+    topic_destroyed:                    "Thema erfolgreich entfernt"
+       
+  forum:
+    forum_topics:      "Forum Themen"
+    posts_in_topic:    "Beitr&auml;ge im Thema:"
+    discussion_topics: "Themen im Forum"
+    new_topic:         "Neues Thema"
+    subject:           "Betreff"
+    start:             "Start"
+    edit_forum:        "Forum bearbeiten"
+    name:              "Name"
+    description:       "Beschreibung"
+    forums:            "Foren"
+    topics_count:      "{{topics_count}} Themen"
+    new_forum:         "Neues Forum"
+    new_forum_post:    "neuer Beitrag im Thema {{topic}}"
+    person_posted:     "{{person}} hat einen Beitrag zum Thema {{topic}} geschrieben"
+    forum_number:      "Forum {{number}}"
+    
+  gallery:
+    new_gallery:                 "Neue Gallerie"
+    edit_gallery:                "Bearbeiten der Gallerie"
+    title:                       "Titel"
+    description:                 "Beschreibung"
+    photos_in_gallery:           "Fotos in der Gallerie {{gallery}}"
+    edit_gallery:                "Gallerie bearbeiten"
+    all_galleries:               "Alle Gallerien"
+    no_photos_yet:               "(Noch) keine Fotos"
+    persons_galleries:           "{{person}}'s Gallerien"
+    add_gallery:                 "Gallerie hinzuf&uuml;gen"
+    delete_gallery_confirmation: "Sicher, das diese Gallerie gel&ouml;scht werden soll?"
+    delete_gallery:              "Gallerie l&ouml;schen"
+    new_gallery_added:           "neue Gallerie {{gallery}} hinzugef&uuml;gt"
+    person_added_new_gallery:    "{{person}} hat die neue Gallerie {{gallery}} hinzugef&uuml;gt"
+    owner_added_new_gallery:     "{{owner}} hat die neue Gallerie {{gallery}} hinzugef&uuml;gt"
+    to_gallery:                  "zur Gallerie {{gallery}}"
+
+  group:
+    new_group:                      "Neue Initiative anlegen"
+    invitation_for_group:           "Einladung zur Initiative:"
+    view_group:                     "Anschauen"
+    group_wall:                     "{{group}} Pinnwand"
+    person_created_group:           "{{person}} hat die Initiative {{group_link}} erstellt"
+    profile:                        "Profil der Initiative: <strong>{{group}}</strong>"
+    description_blank_notice:       "Die Beschreibung fehlt."
+    description_blank_link:         "Hier klicken, um eine Beschreibung hinzuzuf&uuml;gen"
+    wall_tab:                       "Pinnwand"
+    activity_tab:                   "Letzte Aktivit&auml;ten"
+    members_tab:                    "Mitglieder"
+    blog_tab:                       "Blog"
+    galleries_tab:                  "Gallerien"
+    edit_group:                     "Initiative bearbeiten"
+    edit_profile:                   "Profil bearbeiten"
+    edit_members:                   "Mitglieder bearbeiten"
+    description:                    "Beschreibung"
+    invite_your_contacts:           "Kontakte zur Initiative: <strong>{{group}}</strong> einladen"
+    select_all:                     "Alle ausw&auml;hlen"
+    deselect_all:                   "Auswahl aufheben"
+    invite:                         "Einladen"
+    accept_membership:              "Mitgliedschaft akzeptieren"
+    delete_membership:              "Mitgliedschaft dieser Person aufheben"
+    delete_membership_confirmation: "Sicher das die Mitgliedschaft dieser Person aufgehoben werden soll?"
+    admin:                          "Administrator"
+    join:                           "dieser Initiative beitreten"
+    join_now:                       "Initiative: {{group}} jetzt beitreten"
+    you_are_invited:                "Du bist schon eingeladen"
+    respond:                        "(antworten)"
+    you_are_group_member:           "Du bist Mitglied der Initiative <strong>{{group}}</strong>"
+    leave_group:                    "Diese Initiative verlassen"
+    leave_group_confirmatin:        "Soll die Mitgliedschaft aus der Initiative {{group}} wirklich beendet werden?"
+    request_member_group:           "Es gibt ein Mitgliedsanfrage f&uuml;r die Inititative <strong>{{group}}</strong>"
+    members_for:                    "Mitglieder der Initiative: <strong>{{group}}</strong>"
+    groups_admin:                   "Du bist Administrator dieser Initiative"
+    delete_group:                   "Initiative l&ouml;schen"
+    person_joined:                  "{{person}} ist der Initiative beigetreten"
+    person_joined_group:            "{{person}} ist der Initiative: {{group_link}} beigetreten"
+    mode:                           "Status:"
+    invite_contacts:                "Kontakte einladen"
+    group_members:                  "Mitglieder der Initiative {{group}}"
+    edit_all_members:               "Alle Mitglieder bearbeiten"
+    all_members:                    "Alle Mitglieder"
+    pending_request:                "Offene Anfragen"
+    members:                        "Mitglieder"
+    admin:                          "Administrator"
+    no_recent_activity:             "(Noch) keine Aktivit&auml;ten"
+    no_members_yet:                 "(Noch) keine Mitglieder"
+    of_group:                       "der Initiative: <strong>{{group}}</strong>"
+    recent_activity:                "{{group}}'s j&uuml;ngste Aktivit&auml;ten"
+    comment_wall:                   "{{group}}'s Kommentar-Pinnwand"
+    must_be_member_notice:          "nur als Mitglied der Initiative: <strong>{{group}}</strong>
+                                     kann ein Kommentar auf der Pinnwand hinterlassen werden."
+
+  groups:
+    admin_groups:           "Eigene Initiativen"
+    joined_groups:          "Initiativen als Mitglied"
+    invitations_for_groups: "Einladungen zu Initiativen"
+    see_all_groups:         "Alle Initiativen &raquo;"
+    groups:                 "Initiativen"
+    no_groups_yet:          "(Noch) keine Initiativen"
+
+  home:
+    home:                   "Start"
+    activity_feed:          "Aktivit&auml;ten &Uuml;bersicht"
+    discussion_forum:       "Diskussions Forum"
+    last_post_ago_by:       "Letzter Beitrag vor {{ago}} von {{person}}"
+    go_to_discussion_forum: "Zum Diskussions Forum &raquo;"
+    activity:               "Aktivit&auml;t"
+    unread_messages_notice: "Es sind ungelesenene Nachrichten im Posteingang."
+    unread_messages_link:   "Hier klicken, um die Nachrichten zu lesen"
+    about:                  "&Uuml;ber "
+    learn_more_about_us:    ", um mehr &uuml;ber {{the_site}} zu erfahren."
+    see_all_members:        "Alle Mitglieder &raquo;"
+    dashboard:              "&Uuml;bersicht"
+    my_messages:            "Nachrichten"
+    people:                 "Mitglieder"
+    forum:                  "Forum"
+    companies:              "Firmen"
+    homepage:               "Homepage"
+    welcome:                "Willkommen, {{person}}!"
+    standard_view:          "Standard Ansicht"
+    admin_view:             "Administrator Ansicht"
+    minifeed:               "Mini&uuml;bersicht"
+    resources:              "Dokumentation"
+    event:                  "Veranstaltung"
+
+  message:
+    from:                        "Von:"
+    to:                          "An:"
+    subject:                     "Betreff:"
+    messages:                    "Nachrichten"
+    no_messages_yet:             "(Noch) keine Nachrichten"
+    all_messages:                "Alle Nachrichten &raquo;"
+    editing_message:             "Bearbeiten der Nachrichten"
+    content:                     "Inhalt"
+    delete_message:              "Diese Nachricht l&ouml;schen"
+    delete_message_confirmation: "Sicher, das diese Nachricht gel&ouml;scht werden soll?"
+    send:                        "Absenden"
+    untrash:                     "Wiederherstellen"
+    inbox:                       "Eingang"
+    sent:                        "Ausgang"
+    trash:                       "Papierkorb"
+    new_message:                 "Neue Nachricht"
+    message_preview:             "Vorschau der Nachricht"
+    reply_to_this_message:       "Auf diese Nachricht antworten"
+    sent_to:                     "Gesendet an"
+    sent_by:                     "Empfangen von"
+    received:                    "eingegangen"
+    dispatched:                  "geschickt"
+    sent_to_recipient:           "Nachricht an {{recipient}} gesendet"
+    sent_by_sender:              "Nachricht empfangen von {{sender}}"
+    new_message_notification:    "Es gibt eine neue Nachricht auf {{domain}}! Hier klicken zum empfangen:"
+    send_message:                "Nachricht senden"
+    message_everyone:            "Nachricht an Alle"
+    send_reply:                  "Antwort schicken"
+    
+  owner:
+    blog_post:                    "Blogeintrag"
+
+  password_reminder:
+    password_reminder:   "Passwort Erinnerung"
+    enter_email_address: "Bitte die Email Adresse angeben:"
+    send_reminder:       "Passwort Erinnerung senden"
+    password_id:         "Das Passwort lautet:"
+    forgot_password:     "Ich habe mein Passwort vergessen"
+    
+  person:
+    join:                         "beitreten"
+    view_profile:                 "Profil ansehen"
+    said:                         "{{person}} sagte"
+    created:                      "Erstellt von {{person}}"
+    common_contacts:              "Gemeinsame Kontakte"
+    common_contacts_with:         "Gemeinsame Kontakte mit"
+    no_contacts_in_common:        "Keine gemeinsamen Kontakte"
+    edit_profile:                 "Profil bearbeiten"
+    public_description:           "&Ouml;ffentliche Beschreibung"
+    public_description_meta:      "Dies ist die Beschreibung, die andere Nutzer des Systems sehen."
+    email_notification_pref:      "Einstellungen der Email-Benachrichtigung"
+    email_notification_pref_meta: "Email erhalten, wenn diese Veranstaltungen eintritt"
+    change_your_password:         "Passwort &auml;ndern"
+    current_password:             "Aktuelles Passwort"
+    new_password:                 "Neues Passwort"
+    password:                     "Passwort"
+    confirm_password:             "Passwort best&auml;tigen"
+    change_password:              "Passwort &auml;ndern"
+    people:                       "Mitglieder"
+    sign_up:                      "Registrieren"
+    sign_up_for:                  "Registrieren f&uuml;r"
+    email:                        "Email Adresse"
+    never_made_public:            "wird nie ver&ouml;ffentlicht"
+    will_be_verified:             "wird verifiziert"
+    complete_verification:        "Hier klicken, um die Email Verifikation abzuschliessen:"
+    name:                         "Name"
+    will_be_displayed:            "(wird angezeigt)"
+    profile:                      "{{person}}'s Profil"
+    not_active:                   "Diese Person ist nicht aktiv"
+    description_blank_notice:     "Die Beschreibung fehlt."
+    description_blank_link:       "Hier klicken, um eine Beschreibung hinzuzuf&uuml;gen"
+    persons_contacts:             "{{person}}'s Kontakte"
+    contacts:                     "Kontakte"
+    see_all_contacts:             "Alle Kontakte &raquo;"
+    no_recent_activity:           "Keine neueren Aktivit&auml;ten"
+    recent_activity:              "{{person}}'s j&uuml;ngste Aktivit&auml;ten"
+    last_logged_in:               "{{person}} zuletzt angemeldet"
+    profile_tab:                  "Profil"
+    wall_tab:                     "Pinnwand"
+    recent_activity_tab:          "Letzte Aktivit&auml;ten"
+    contacts_tab:                 "Kontakte"
+    groups_tab:                   "Initiativen"
+    blog_tab:                     "Blog"
+    galleries_tab:                "Gallerien"
+    events_tab:                   "Veranstaltungen"
+    comment_wall:                 "{{person}}'s Kommentar-Pinnwand"
+    edit_personal_info:           "Pers&ouml;nliche Information"
+    person_admin:                 "Mitglieder verwalten"
+    demote_from_admin:            "beim Administrator zur&uuml;ckstufen"
+    promote_to_admin:             "dem Administrator empfehlen"
+    forum_posts:                  "Forum Beitr&auml;ge:"
+    blog_posts:                   "Blogeintr&auml;ge:"
+    connections:                  "Verbindungen:"
+    connected_with:               "vernetzt mit {{person}}"
+    persons_have_connected:       "{{person1}} und {{person2}} haben sich vernetzt"
+    description_changed:          "Beschreibung ge&auml;ndert"
+    persons_description_changed:  "{{person}}'s Beschreibung wurde ge&auml;ndert"
+    blog_post:                    "Blogeintrag"
+    person_wall:                  "{{person}} Pinnwand"
+    person:
+      one:                        "Person"
+      other:                      "Personen"
+    persons:                      "{{person}}'s"
+    activate:                     "Aktivieren"
+    deactivate:                   "Deaktivieren"
+    
+  photo:
+    edit_photo:                  "Foto bearbeiten"
+    change_photo:                "Foto &auml;ndern"
+    update_photo:                "Foto aktualisierne"
+    persons_photos:              "{{person}}'s Fotos"
+    add_photo:                   "Foto hinzuf&uuml;gen"
+    no_photo_to_show:            "Keine Fotos zum anzeigen"
+    add_a_photo:                 "Ein Foto hinzuf&uuml;gen"
+    select_new_image:            "Neues Bild w&auml;hlen"
+    photo:                       "Foto"
+    go_to_gallery:               "Zur Gallerie wechseln"
+    delete_photo_confirmation:   "Soll das Foto wirklich gel&ouml;scht werden?"
+    delete_photo:                "Foto l&ouml;schen"
+    select_group_profile_photo:  "Als Gruppen-Profil Foto w&auml;hlen"
+    select_person_profile_photo: "Als Profil Foto w&auml;hlen"
+    select_as_gallery_thumbnail: "Als Gallerie Minibild w&auml;hlen"
+    new_photo_added:             "neues Foto {{photo}} {{gallery}} hinzugef&uuml;gt"
+    person_added_new_photo:      "{{person}} hat ein neues {{photo_str}} {{photo}} {{gallery}} hinzugef&uuml;gt"
+    owner_added_new_photo:       "{{owner}} hat ein neues {{photo_str}} {{photo}} {{gallery}} hinzugef&uuml;gt"
+    
+  post:
+    one:                      "1 Beitrag"
+    other:                    "{{count}} Beitr&auml;ge"
+    new_post:                 "Neuer Beitrag"
+    edit_post:                "Beitrag bearbeiten"
+    post:                     "Beitrag"
+    new_blog_post:            "Neuer Blog Beitrag"
+    new_blog_post_link:       "neuer Blog Beitrag {{blog_post}}"
+    delete_post_confirmation: "Delete this post?"
+    posted:                   "Ver&ouml;ffentlicht"
+    blog:                     "Blog"
+    topic:                    "Thema"
+    person:                   "Person"
+    body:                     "Body"
+    blog_for_person:          "Blog von {{person}}"
+    persons_blog:             "{{person}}'s Blog"
+    owners_blog:              "{{owner}}'s Blog"
+    person_posted_blog_post:  "{{person}} hat {{blog_post}} &mdash; {{blog}} ver&ouml;ffentlicht"
+    owner_posted_blog_post:   "{{owner}} hat {{blog_post}} &mdash; {{blog}} ver&ouml;ffentlicht"
+    no_blog_posts:            "(Noch) keine Blog Beitr&auml;ge"
+    person_new_blog_post:     "{{person}} hat einen {{new_blog_post}} erstellt"
+    
+  pref:
+    edit_global_prefs:    "Globale Einstellungen bearbeiten"
+    application_name:     "Name der Webseite"
+    email_domain:         "Email Domain"
+    server_name:          "Server Name"
+    smtp_server:          "SMTP Server"
+    send_notices:         "Nachricht senden"
+    email_notifications:  "Email Benachrichtigung"
+    send_notices_meta:    "Email Benachrichtigungen, wenn Nachrichten, Verbindungsanfragen, etc., gesendet werden"
+    demo_site:            "Demo Seite"
+    demo_site_meta:       "Hinweis anzeigen, dass es sich um eine Demonstrationsseite handelt"
+    whitelist_meta:       "Neue Mitglieder im deaktivierten Zustand registrieren bis sie autorisiert sind"
+    whitelist:            "Autorisierung"
+    verify_email_meta:    "Email von neuen Mitgliedern mit einem Aktivierungscode verifizieren"
+    verify_email:         "Verifizierungs Emails"
+    email_verifications:  "Email Verifizierung"
+    activation_code_meta: "Email an neue Mitglieder mit Aktivierungscode senden"
+    keep_it_short_meta:   "Kurz halten, um die Breite von 146px einzuhalten"
+    analytics_meta:       "Der Code wird direkt vor den &lt;/body&gt; tag eingef&uuml;gt"
+    global_prefs:         "Globale Einstellungen"
+    about_meta:           "Webseitenbeschreibung (Texteintrag f&uuml;hrt zu einem \"&Uuml;ber\" link)"
+    prefs:                "Einstellungen"
+    
+  search:
+    browse_forum:    "Forum durchsuchen"
+    browse_groups:   "Initiative suchen"
+    search_message:  "Nachricht suchen"
+    search_contacts: "Kontakte suchen"
+    search_people:   "Mitglieder suchen"
+    search:          "Suchen"
+    search_results:  "Suchergebnisse"
+    no_results:      "Keine Ergebnisse"
+    
+  session:
+    sign_in:               "Anmelden"
+    email:                 "Email Adresse"
+    password:              "Passwort"
+    open_id:               "OpenId"
+    remember_me:           "Anmeldedaten speichern:"
+    or_sign_up:            "oder Registrieren"
+    forgot_password:       "Ich habe mein Passwort vergessen!"
+    login_with_open_id:    "Anmelden mit OpenID"
+    back_to_regular_login: "Zur&uuml;ck zur normalen Anmeldung"
+    sign_out:              "Abmelden"
+    
+  topic:
+    new_topic:                 "Neues Thema"
+    edit_topic:                "Thema bearbeiten"
+    forum:                     "Forum"
+    person:                    "Person"
+    name:                      "Name"
+    posts_count:               "Beitr&auml;ge z&auml;hlen"
+    posted_by:                 "Ver&ouml;ffentlicht von"
+    in_results:                "In {{search_summary}}"
+    forum_topic:               "Forum - Thema"
+    comment:                   " - Kommentar "
+    add_reply:                 "Antwort hinzuf&uuml;gen"
+    started_by:                "Er&ouml;ffnet von"
+    delete_topic_confirmation: "Sicher, dass dieses Thema gel&ouml;scht werden soll?"
+    delete_topic:              "Thema l&ouml;schen"
+    new_discussion:            "neues Diskussionsthema {{topic}}"
+    person_posted:             "{{person}} hat ein neues Thema {{topic}} erstellt"

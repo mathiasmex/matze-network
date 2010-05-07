@@ -12,11 +12,11 @@
   <p><%= formatting_note %></p>
 
   <div class="form_row">
-    <%= f.label :body, "Post" %>
+    <%= f.label :body, t('post.post') %>
     <%= f.text_area :body, :cols => 80, :rows => 20 %>
   </div>
 
   <div class="form_row">
-    <%= f.submit "Save", :class => "button" %>
+    <%= f.submit t('global.save'), :class => "button" %>
   </div>
 <% end %>

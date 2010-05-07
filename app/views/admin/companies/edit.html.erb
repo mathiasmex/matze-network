@@ -1,0 +1,14 @@
+<h2>Editing company</h2>
+
+<% form_for(:company, :url => admin_company_path(@company), :html => {:method => :put}) do |f| %>
+  <%= f.error_messages %>
+
+  <%= render :partial => 'company', :locals => {:f => f} %>
+  
+  <p>
+    <%= f.submit "Update", :class => "button" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_company_path(@company) %> |
+<%= link_to 'Back', admin_companies_path %>

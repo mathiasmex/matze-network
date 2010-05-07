@@ -1,4 +1,3 @@
-
 require 'fileutils'
 require 'chronic'
 require 'singleton'

@@ -1,12 +1,12 @@
 <%- if @person.recent_activity.empty? -%>
-  <h2>No recent activity</h2>
+  <h2><%=t ('person.no_recent_activity') %></h2>
 <%- else -%>
-  <h2><%= @person.name %>'s Recent Activity</h2>
+  <h2><%= t('person.recent_activity', :person => h(@person.name)) %></h2>
 
   <%- unless @person.last_logged_in_at.nil? or current_person?(@person) -%>
     <p class="meta">
-      <%= @person.name %> last logged in 
-      <%= time_ago_in_words(@person.last_logged_in_at) %> ago
+      <%= t('person.last_logged_in', :person => h(@person.name)) %> 
+      <%= t('global.ago', :time_ago => time_ago_in_words(@person.last_logged_in_at)) %>
     </p>    
   <%- end -%>
   

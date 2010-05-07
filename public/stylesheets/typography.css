@@ -1,14 +1,14 @@
 body {
-  font-family: Helvetica, Arial, Univers, Tahoma, sans-serif;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
   font-size: 1em;
-  line-height:  1.05em;  
+  line-height:  1.09em;  
 }
 p,
 li, 
 th, 
 td {
-  font-size:  14px;
-  line-height:  1.4em;
+  font-size:  12px;
+  line-height:  1.2em;
 }
 li li, li p {
   font-size: 100%;
@@ -30,10 +30,10 @@ h2 {
   border-bottom: 1px solid #ccc;
   color: #069;
   clear: both;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 22px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 18px;
   font-weight: normal;
-  line-height: 1.4em;
+  line-height: 1.2em;
   margin-top: 24px;
   padding-left: 6px;
 }
@@ -42,8 +42,8 @@ h2 a, h3 a {
   font-weight: normal;
 }
 h3 {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 20px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 16px;
   font-weight: normal;
 }
 h3.page-title {
@@ -52,18 +52,18 @@ h3.page-title {
 h4 {
   border-bottom: 1px solid #eee;
   clear: both;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.3em;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 1.2em;
   font-weight: normal;
-  line-height: 1.4em;
+  line-height: 1.2em;
   width: 100%;
 }
 h5 {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
 }
 h6 {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
   font-style: italic;
 }
@@ -79,7 +79,7 @@ ol li {
 }
 
 blockquote {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
   color: #666666;
   background: #ececec;
   border: 1px solid #ccc;
@@ -106,19 +106,21 @@ a:link, a:visited {
 	font-weight:bold;
 	text-decoration:none;
 }
+
 /* Specific elements */
 p.welcome {
   color: #fff;
-  font-size: 12px
+  font-size: 10px;
+  margin-top: -5px;
 }
 p.welcome a, p.welcome a:visited {
   color: #fff;
   text-decoration: underline;
+  outline: 0; /* @ Firefox, prevent dotted border after click */
 }
 
-
 #footer p {
-  font-size: 12px;
+  font-size: 10px;
   text-align: center;
 }
 
@@ -127,7 +129,7 @@ p.welcome a, p.welcome a:visited {
   border: none;
   clear: both;
   float: left;
-  font-size: 12px;
+  font-size: 10px;
   text-align: right;
   width: 100%;
 }
@@ -136,17 +138,17 @@ p.welcome a, p.welcome a:visited {
 }
 .meta {
   color: #aaa;
-  font-size: 12px;
-  line-height: 1.8em;
+  font-size: 10px;
+  line-height: 1.5em;
 }
 p.meta, li p.meta {
-  font-size: 12px;
+  font-size: 10px;
 }
 .label {
   font-weight: bold;
 }
 body.blog .comments p, body.forum .reply p {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 /* Have followed links change color (e.g., in forums). */
@@ -159,19 +161,19 @@ a.show-follow:visited {
 .success {
   border: 1px solid #FFCC66;
   background-color: #FFFFCC;
-  font-size: 12px;
+  font-size: 10px;
   padding: 6px;
 }
 .notice {
   border: 1px solid #FFCC66;
   background-color: #FFFFCC;
-  font-size: 12px;
+  font-size: 10px;
   padding: 6px;
 }
 .error {
   border: 1px solid #FFCC66;
   background-color: #FFFFCC;
-  font-size: 12px;
+  font-size: 10px;
   padding: 6px;
 }
 
@@ -184,7 +186,6 @@ a.show-follow:visited {
 .notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
 .success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
 
-
 .errorExplanation {
   border: 1px solid #FFCC66;
   background-color: #FFFFCC;
@@ -194,21 +195,17 @@ a.show-follow:visited {
 .errorExplanation h2 {
   background: 0;
   border: 0;
-  font-size: 1.2em;
+  font-size: 1em;
   margin-top: 0;
   padding: 0;
 }
 .pagination {
   /*border-bottom: 1px solid #eee;*/
-  font-size: 12px;
+  font-size: 10px;
   padding-bottom: 12px;
   /* text-align: center;
   too much whitespace margin-bottom: 12px; */
 }
-
-
-
-
 
 /* Forms */
 form {
@@ -217,16 +214,16 @@ form {
   margin-bottom: 2em;
 }
 input, textarea {
-  font-family: Helvetica, Arial, Univers, sans-serif;
-  font-size: 12px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 10px;
   padding: 6px 3px
 }
 textarea {
-  line-height: 1.4em;
+  line-height: 1.2em;
 }
 label  {
   display: block;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   margin-bottom: .5em;
 }
@@ -238,9 +235,8 @@ input.button, button, input[submit], input[button] {
   border: 1px solid #ccc;
   clear: both;
   cursor: pointer;
-/*  display: block;*/
-  font-family: Helvetica, Arial, Univers, sans-serif;
-  font-size: 12px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 10px;
   height: 32px;
   padding: 3px 12px;
 }
@@ -274,7 +270,6 @@ body.single-col .col1 form input.checkbox {
   margin: 0 0 0 0px;
   padding: 0;
   position: relative;
-  zoom: 1;
 }
 
 #frmSearch input.txt {
@@ -304,7 +299,6 @@ h3.blankslate {
 text-align: center; */
 }
 
-
 /* Tables
 -------------------------------------------------------------- */
 
@@ -322,7 +316,7 @@ em { font-style: italic;}
 strong { font-weight: bold; }
 
 .small      { font-size: .8em; margin-bottom: 1.875em; line-height: 1.875em; }
-.large      { font-size: 1.2em; line-height: 2.5em; margin-bottom: 1.25em; }
+.large      { font-size: 1.2em; line-height: 2em; margin-bottom: 1.25em; }
 .hide       { display: none; }
 
 .quiet      { color: #666; }

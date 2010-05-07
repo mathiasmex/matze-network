@@ -1,0 +1,3 @@
+<%= related_collection_select("company#{num}", :id, 
+  [num == 0 ? :company : "company#{num-1}", :id], 
+  companies(1), :id, :name, :parent_id) %>

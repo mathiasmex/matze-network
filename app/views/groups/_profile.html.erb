@@ -1,0 +1,78 @@
+<div class="profile vcard">
+  <h2><span class="fn n"><%= t('group.profile', :group => h(@group.name)) %></span></h2>
+  <%- if group_owner?(current_person,@group) -%>
+    <div class="button_container">
+      <%- if @group.description.blank? -%>
+        <div class="error">
+          <%=t ('group.description_blank_notice') %>
+          <%= link_to t('group.description_blank_link'), 
+                      edit_group_path(@group) %>
+        </div>
+          <%= link_to t('group.edit_members'), members_group_path(@group) %>
+      <%- else -%>
+          <%= link_to t('group.edit_profile'), edit_group_path(@group) %> |
+          <%= link_to t('group.edit_members'), members_group_path(@group) %>
+      <%- end -%>
+    </div>
+  <%- end -%>
+  <div class="toolbox">
+    <%= image_tag @group.main_photo, :class => "profile-image photo",
+                                      :alt => h(@group.name) %>
+    <ul class="tools">
+      <%- unless group_owner?(current_person,@group) -%>
+        <%- unless Membership.exist?(current_person,@group) -%>
+          <li>
+            <%= link_to t('group.join'),
+                      group_memberships_path(@group), :method => :post %>
+          </li>
+        <%- else -%>
+            <%- if @group.has_invited?(current_person) -%>
+              <li><%=t ('group.you_are_invited') %> <%= link_to t('group.respond'), 
+                          edit_membership_path(Membership.find_by_group_id(@group,
+                          :conditions => ["person_id = ?", current_person])) %></li>
+            <%- end -%>
+        <%- end -%>
+        <%- if Membership.connected?(current_person,@group) -%>
+          <li><%=t ('group.you_are_group_member', :group => h(@group.name)) %>
+              <br />
+              (<%= link_to t('group.leave_group'),
+                      membership_path(Membership.mem(current_person, @group)), 
+                      :method => :delete,
+                      :confirm => t('group.leave_group_confirmation',
+                                  :group => h(@group.name)) %>)
+          </li>
+        <%- end -%>
+        <%- if Membership.pending?(current_person, @group) -%>
+          <li>
+            <%=t ('group.request_member_group', :group => h(@group.name)) %>
+          </li>
+        <%- end -%>
+      <%- else -%>
+         <p><%=t ('group.groups_admin') %></p>
+          <li>
+              <%= link_to t('group.delete_group'),
+                      group_path(@group),
+                      :confirm => t('global.are_you_sure'),
+                      :method => :delete %>
+          </li>
+          <li>
+              <%=t ('group.mode') %> <%= get_groups_modes[@group.mode][0] %>
+          </li>
+          <% if @group.hidden? %>
+              <li>
+                  <%= link_to t('group.invite_contacts'), invite_group_path(@group) %>
+              </li>
+          <% end %>
+      <%- end -%>
+      <%- if current_person.admin? -%>
+        <li>
+        <%= link_to t('group.delete_group'),
+                admin_group_path(@group),
+                :confirm => t('global.are_you_sure'),
+                :method => :delete%> 
+        </li>
+      <%- end -%>
+    </ul>
+  </div>
+  <%= display @group.description %>
+</div>

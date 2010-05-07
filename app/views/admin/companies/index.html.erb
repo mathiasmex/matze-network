@@ -1,0 +1,25 @@
+<h2>Listing companies</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Web</th>
+  </tr>
+
+<% for company in @companies %>
+  <tr>
+    <td><%= link_to company.name, admin_company_path(company) %></td>
+    <td><%= company.description[0...20]+"..." unless company.description.nil? %></td>
+    <td><%= link_to company.web,company.web unless company.web.nil?%></td>
+    <td><%= link_to 'Edit', edit_admin_company_path(company) %></td>
+    <td><%= link_to 'Destroy', admin_company_path(company), 
+                                :confirm => 'Are you sure?', 
+                                :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New company', new_admin_company_path %>

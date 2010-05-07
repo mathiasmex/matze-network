@@ -1,0 +1,10 @@
+# TODO Operate on the page object
+if @location.success
+  page << "map.clearOverlays();"
+  page << "geolocateAddress(#{@coord[0]},#{@coord[1]},'#{@location.full_address}', true, '#{@type}');"
+else
+  page.alert("Sorry, we were unable to geocode that address")
+  page << "map.clearOverlays();"
+  page << '$("#'+ @type +'_lat").val(0);'
+  page << '$("#'+ @type +'_lng").val(0);'
+end

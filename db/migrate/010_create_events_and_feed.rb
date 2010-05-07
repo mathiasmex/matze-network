@@ -4,7 +4,7 @@ class CreateEventsAndFeed < ActiveRecord::Migration
       t.boolean :public
       t.integer :item_id
       t.integer :person_id
-      t.string :item_type
+      t.string  :item_type
 
       t.timestamps
     end

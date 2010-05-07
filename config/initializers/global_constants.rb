@@ -19,3 +19,7 @@ RASTER_PER_PAGE = 3 * N_COLUMNS
 
 #RICH TEXT EDITOR SIZE (pixels)
 RICH_TEXT_HEIGHT = '350px'
+
+#PAGINATION TRANSLATION (vendors/plugins/will_paginate)
+WillPaginate::ViewHelpers.pagination_options[:prev_label] = 'Vorherige Seite'
+WillPaginate::ViewHelpers.pagination_options[:next_label] = 'N&auml;chste Seite'

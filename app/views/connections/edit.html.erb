@@ -1,11 +1,11 @@
-<h2>Contact request</h2>
+<h2><%=t ('connection.contact_request') %></h2>
 
 <p><%= image_link @contact, :image => :thumbnail %></p>
-<p>You have a contact request from <%= @contact.name %></p>
+<p><%= t('connection.contact_request_from', :name => @contact.name) %></p>
 
 <% form_for(@connection) do |f| %>
   <p>
-    <%= f.submit "Accept", :class => "button" %>
-    <%= f.submit "Decline", :id => nil, :class => "button" %>
+    <%= f.submit t('connection.accept'), :class => "button" %>
+    <%= f.submit t('connection.decline'), :id => nil, :class => "button" %>
   </p>
 <% end %>

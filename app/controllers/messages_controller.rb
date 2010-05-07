@@ -6,6 +6,7 @@ class MessagesController < ApplicationController
   # GET /messages
   def index
     @messages = current_person.received_messages(params[:page])
+    @some_contacts = current_person.some_contacts
     respond_to do |format|
       format.html { render :template => "messages/index" }
     end
@@ -14,6 +15,7 @@ class MessagesController < ApplicationController
   # GET /messages/sent
   def sent
     @messages = current_person.sent_messages(params[:page])
+    @some_contacts = current_person.some_contacts
     respond_to do |format|
       format.html { render :template => "messages/index" }
     end
@@ -22,6 +24,7 @@ class MessagesController < ApplicationController
   # GET /messages/trash
   def trash
     @messages = current_person.trashed_messages(params[:page])
+    @some_contacts = current_person.some_contacts
     respond_to do |format|
       format.html { render :template => "messages/index" }
     end    
@@ -29,6 +32,7 @@ class MessagesController < ApplicationController
 
   def show
     @message.mark_as_read if current_person?(@message.recipient)
+    @some_contacts = current_person.some_contacts
     respond_to do |format|
       format.html
     end
@@ -69,7 +73,7 @@ class MessagesController < ApplicationController
   
     respond_to do |format|
       if !preview? and @message.save
-        flash[:success] = 'Message sent!'
+        flash[:success] = t('flash.message_sent')
         format.html { redirect_to messages_url }
       else
         @preview = @message.content if preview?
@@ -81,10 +85,10 @@ class MessagesController < ApplicationController
   def destroy
     @message = Message.find(params[:id])
     if @message.trash(current_person)
-      flash[:success] = "Message trashed"
+      flash[:success] = t('flash.message_trashed')
     else
       # This should never happen...
-      flash[:error] = "Invalid action"
+      flash[:error] = t('flash.invalid_action')
     end
   
     respond_to do |format|
@@ -95,10 +99,10 @@ class MessagesController < ApplicationController
   def undestroy
     @message = Message.find(params[:id])
     if @message.untrash(current_person)
-      flash[:success] = "Message restored to inbox"
+      flash[:success] = t('flash.message_restored')
     else
       # This should never happen...
-      flash[:error] = "Invalid action"
+      flash[:error] = t('flash.invalid_action')
     end
     respond_to do |format|
       format.html { redirect_to messages_url }
@@ -131,7 +135,7 @@ class MessagesController < ApplicationController
     end
 
     def preview?
-      params["commit"] == "Preview"
+      params["commit"] == t('global.preview')
     end
 
 end

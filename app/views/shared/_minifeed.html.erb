@@ -1,5 +1,5 @@
 <div class="minifeed">
-<h2>Minifeed</h2>
+<h2><%=t ('home.minifeed') %></h2>
 <ul class="list activity small">
 <%- if logged_in? -%>
     <%= render :partial => 'shared/minifeed_item',

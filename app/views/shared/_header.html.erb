@@ -1,7 +1,7 @@
 <div id="header-wrap">
   <div id="header">
-    <h1><%= link_to image_tag("logo-insoshi.png"), home_url, 
-        :title => "Homepage" %></h1>
+    <h1><%= link_to image_tag("logo.jpg"), home_url, 
+                    :title => t('home.homepage') %></h1>
     <ul id="nav">
       <%- menu.each do |link| -%>
         <%= menu_li link %>
@@ -9,22 +9,22 @@
     </ul>
     <p class="welcome">
       <%- if logged_in? -%>
-        Welcome, <%= h current_person.name %>!
-        (<%= link_to "Sign out", logout_path %>)
+        <%= t('home.welcome', :person => h(current_person.name)) %>
+        <%= link_to t('session.sign_out'), logout_path %>
         <%- if current_person.admin? -%>
           <br />
           <%- if admin_view? -%>
-            <%= link_to("Standard view", home_path) %>
+            <%= link_to t('home.standard_view'), home_path %>
           <%- else -%>
-            <%= link_to("Admin view", admin_preferences_path) %>
+            <%= link_to t('home.admin_view'), admin_preferences_path %>
           <%- end -%>
         <%- end -%>
       <%- else -%>
-        <%= link_to "Sign in", login_path %> or
-        <%= link_to "Sign up", signup_path %>
+        <%= link_to t('session.sign_in'), login_path %> <%= t('global.or') %>
+        <%= link_to t('person.sign_up'), signup_path %>
         <%- if global_prefs.can_send_email? -%>
         <br />
-        <%= link_to "I forgot my password",
+        <%= link_to t('password_reminder.forgot_password'),
                      new_password_reminder_path %>
         <%- end -%>             
       <%- end -%>

@@ -9,10 +9,10 @@ class Admin::PeopleController < ApplicationController
   def update
     @person = Person.find(params[:id])
     if current_person?(@person)
-      flash[:error] = "Action failed."
+      flash[:error] = t('flash.action_failed')
     else
       @person.toggle!(params[:task])
-      flash[:success] = "#{CGI.escapeHTML @person.name} updated."
+      flash[:success] = t('flash.person_updated', :person => CGI.escapeHTML(@person.name))
     end
     respond_to do |format|
       format.html { redirect_to :back }

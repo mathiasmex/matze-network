@@ -10,15 +10,15 @@
   <p class="meta tools">
     <%= link_to image_tag("icons/email_edit.png", :class => 'actioner'), 
                 reply_message_path(@message),
-                :title => "Reply to this message" %>
+                :title => t('message.reply_to_this_message') %>
     <% unless @message.trashed?(current_person) -%>
       <%= link_to image_tag("icons/email_delete.png", :class => 'actioner'), 
                   @message,
                   :method => :delete, 
-                  :confirm => %(Delete this message?),
-                  :title => "Delete this message" %>
+                  :confirm => t('message.delete_mesage_confirmation'),
+                  :title => t('message.delete_message') %>
     <% else -%>
-      <%= link_to "Untrash", undestroy_message_path(@message), 
+      <%= link_to t('message.untrash'), undestroy_message_path(@message), 
                              :method => :put %>
     <% end -%>
   </p>

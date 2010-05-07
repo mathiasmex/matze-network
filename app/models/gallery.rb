@@ -17,16 +17,16 @@ class Gallery < ActiveRecord::Base
   include ActivityLogger
   
   attr_accessible :title, :description
-  
-  belongs_to :person
+
+  belongs_to :owner, :polymorphic => true
+
   has_many :photos, :dependent => :destroy, :order => :position
   has_many :activities, :foreign_key => "item_id", :dependent => :destroy,
                         :conditions => "item_type = 'Gallery'"
   
-
   validates_length_of :title, :maximum => 255, :allow_nil => true
   validates_length_of :description, :maximum => 1000, :allow_nil => true
-  validates_presence_of :person_id
+  validates_presence_of :owner_id
 
   before_create :handle_nil_description
   after_create :log_activity
@@ -35,7 +35,6 @@ class Gallery < ActiveRecord::Base
     5
   end
   
-
   def primary_photo
     photos.find_all_by_primary(true).first
   end
@@ -78,7 +77,7 @@ class Gallery < ActiveRecord::Base
     end
 
     def log_activity
-      activity = Activity.create!(:item => self, :person => person)
-      add_activities(:activity => activity, :person => person)
+      activity = Activity.create!(:item => self, :owner => owner)
+      add_activities(:activity => activity, :owner => owner)
     end
 end

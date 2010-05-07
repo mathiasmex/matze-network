@@ -1,5 +1,5 @@
 <%- column_div :type => :primary do -%>
-<h2>Edit Forum</h2>
+<h2><%=t ('forum.edit_forum') %></h2>
 
 <%= error_messages_for :forum %>
 
@@ -7,17 +7,17 @@
             :url => admin_forum_path(@forum),
             :html => { :method => :put, :id => 'admin_forums' } do |f| %>
   <div class="form_row">
-    <b>Name</b><br />
+    <b><%=t ('forum.name') %></b><br />
     <%= f.text_field :name %>
   </div>
 
   <div class="form_row">
-    <b>Description</b><br />
+    <b><%=t ('forum.description') %></b><br />
     <%= f.text_area :description, :rows => 10 %>
   </div>
   
   <div class="form_row">
-    <%= f.submit "Update", :class => "button" %>
+    <%= f.submit t('global.update'), :class => "button" %>
   </div>
 <% end %>
 <% end %>

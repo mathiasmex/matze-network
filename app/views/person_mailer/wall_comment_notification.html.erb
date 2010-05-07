@@ -1,4 +1,4 @@
-You have a new comment on your wall from <%= @comment.commenter.name %>:
+<%= t('comment.new_wall_comment_notification', :person => h(@comment.commenter.name)) %>
 
 http://<%= @server %><%= @url %>
 

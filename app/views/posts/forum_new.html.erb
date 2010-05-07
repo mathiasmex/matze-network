@@ -1,4 +1,4 @@
-<h2>New post</h2>
+<h2><%=t ('post.new_post') %></h2>
 
 <%= error_messages_for :post %>
 
@@ -6,4 +6,4 @@
            :locals => { :url => forum_topic_posts_path(@forum, @topic),
                         :method => :post } %>
 
-<%= link_to 'Back', forum_topic_path(@forum, @topic) %>
+<%= link_to t('global.back'), forum_topic_path(@forum, @topic) %>

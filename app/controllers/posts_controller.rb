@@ -48,7 +48,7 @@ class PostsController < ApplicationController
     
     respond_to do |format|
       if @post.save
-        flash[:success] = 'Post created'
+        flash[:success] = t('flash.post_created')
         format.html { redirect_to post_url }
       else
         format.html { render :action => resource_template("new") }
@@ -59,7 +59,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update_attributes(params[:post])
-        flash[:success] = 'Post updated'
+        flash[:success] = t('flash.post_updated')
         format.html { redirect_to post_url }
       else
         format.html { render :action => resource_template("edit") }
@@ -70,7 +70,7 @@ class PostsController < ApplicationController
   def destroy
     @post = model.find(params[:id])
     @post.destroy
-    flash[:success] = "Post destroyed"
+    flash[:success] = t('flash.post_destroyed')
 
     respond_to do |format|
       format.html { redirect_to posts_url }
@@ -100,9 +100,13 @@ class PostsController < ApplicationController
     # Verify the person is authorized to create a post.
     def authorize_new
       if forum?
-        true  # This will change once there are groups
+        true
       elsif blog?
-        redirect_to home_url unless current_person?(@blog.person)
+        if @blog.owner.class.to_s == "Person"
+          redirect_to home_url unless current_person?(@blog.owner)
+        else
+          redirect_to home_url unless current_person?(@blog.owner.owner)
+        end
       end
     end
 
@@ -112,8 +116,13 @@ class PostsController < ApplicationController
         authorized = current_person?(@post.person) || current_person.admin?
         redirect_to home_url unless authorized
       elsif blog?
-        authorized = current_person?(@blog.person) && valid_post?
-        redirect_to home_url unless authorized
+        if @blog.owner.class.to_s == "Person"
+          authorized = current_person?(@blog.owner) && valid_post?
+          redirect_to home_url unless authorized
+        else
+          authorized = current_person?(@blog.owner.owner) && valid_post?
+          redirect_to home_url unless authorized
+        end
       end
     end
     

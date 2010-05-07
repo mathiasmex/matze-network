@@ -1,0 +1,17 @@
+  <h1><%=t ('message.editing_message') %></h1>
+
+  <%= error_messages_for :message %>
+  <%- form_for(:message, :url => edit_person_message_url(current_person, @message)) do |f| -%>
+    <p>
+      <b><%= t('message.content') %></b><br />
+    </p>
+
+    <p><%= formatting_note %></p>
+    <%= f.text_area :message, :rows => 5 %>
+
+    <%= set_focus_to "message_body" %>
+
+    <div class="form_row">
+      <%= f.submit t('global.update'), :class => 'button' %>
+  </div>
+  <%- end -%>

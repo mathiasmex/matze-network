@@ -1,0 +1,17 @@
+<div id="profile_edit">
+
+  <h3>Company details</h3>
+  <ul class="">
+    <%- @person.companies.each do |company| -%>
+      <li><%= render :partial => "shared/company_tree",
+                     :locals => {:company => company} %></li>
+    <%- end -%>
+  </ul>
+
+  <%- if @person.companies.length < Preference.find(:first).number_of_companies -%>
+    <%= link_to_function "Add new company","Effect.toggle('add_company', 'blind')"  %>
+    <div id="add_company" style="display: none;">
+      <div><%= render :partial => 'add_company' %></div>
+    </div>
+  <%- end -%>
+</div>

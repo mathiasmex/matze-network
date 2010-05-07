@@ -1,4 +1,4 @@
-<h2>Editing topic (<%= link_to 'Show', forum_topic_path(@forum, @topic) %>)</h2>
+<h2><%=t ('topic.edit_topic') %> (<%= link_to t('global.show'), forum_topic_path(@forum, @topic) %>)</h2>
 
 <%= error_messages_for :topic %>
 
@@ -6,22 +6,23 @@
             :html => { :method => :put} do |f| %>
 
   <div class="prefItem">
-    <div class="prefLabel">Forum</div>
+    <div class="prefLabel"><%=t ('topic.forum') %></div>
     <div class="prefValue"><%= f.text_field :forum_id %></div>
   </div>
   <div class="prefItem">
-    <div class="prefLabel">Person</div>
+    <div class="prefLabel"><%=t ('topic.person') %></div>
     <div class="prefValue"><%= f.text_field :person_id %></div>
   </div>
   <div class="prefItem">
-    <div class="prefLabel">Name</div>
+    <div class="prefLabel"><%=t ('topic.name') %></div>
     <div class="prefValue"><%= f.text_field :name %></div>
   </div>
   <div class="prefItem">
-    <div class="prefLabel">Posts count</div>
+    <div class="prefLabel"><%=t ('topic.posts_count') %></div>
     <div class="prefValue"><%= f.text_field :forum_posts_count %></div>
   </div>
   <div>
-    <%= f.submit "Update", :class => "button" %> <%= f.submit 'Cancel', :class => 'button', :id => "cancel" %>
+    <%= f.submit t('global.update'), :class => "button" %>
+    <%= link_to t('global.cancel'), @forum, :class => 'button' %>
   </div>
 <% end %>

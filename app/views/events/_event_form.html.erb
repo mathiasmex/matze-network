@@ -2,35 +2,118 @@
 
 <% form_for(@event) do |f| %>
 <div class="form_row full">
-  <%= f.label :title %>
+  <%= f.label :title, t('event.title') %>
   <%= f.text_field :title %>
 </div>
 <div class="form_row full">
-  <%= f.label :description %>
+  <%= f.label :description, t('event.description') %>
   <%= f.text_area :description %>
 </div>
 <div class="form_row">
-  <%= f.label :start_time %>
-<%= calendar_date_select_tag "event[start_time]", @event.start_time||Time.now,
-                             :time => true, :size => 22,
-                             :valid_date_check => "date >= (new Date()).stripTime()" %>
+  <%= f.label :start_time, t('event.start_time') %>
+  <%= f.text_field :start_time, :size => 10 %>
+  <%= select_time @event.start_time || Time.now, :time_separator => ': ', :prefix => "start" %>
+  <%= hidden_field :date, :start %>
 </div>
 <div class="form_row">
-  <%= f.label :end_time %>
-  <%= calendar_date_select_tag "event[end_time]", @event.end_time, :time => true, 
-                               :mixed => true, :size => 22,
-                               :valid_date_check => "date >= (new Date()).stripTime()" %>
+  <%= f.label :end_time, t('event.end_time') %>
+  <%= f.text_field :end_time, :size => 10 %>
+  <%= select_time @event.end_time || Time.now, :time_separator => ': ', :prefix => "end" %>
+  <%= hidden_field :date, :end %>
 </div>
 <div class="form_row full">
-  <%= f.label :reminder %>
+  <%= f.label :reminder, t('event.reminder') %>
   <%= f.check_box :reminder %> 
 </div>
 <div class="form_row full">
-  <%= f.label :privacy %>
-  <%= f.select :privacy, [["Public", Event::PRIVACY[:public]],["Me and my contacts", Event::PRIVACY[:contacts]]] %> 
+  <%= f.label :privacy, t('event.privacy') %>
+  <%= f.select :privacy, [[t('event.public'), Event::PRIVACY[:public]],[t('event.my_contacts'), Event::PRIVACY[:contacts]]] %> 
 </div>
+
 <div class="form_row">
-  <%= f.submit @event.new_record? ? "Create" : "Update" %>
+  <%= label_tag "address", t('event.location') %>
+  <%= f.hidden_field :lat %>
+  <%= f.hidden_field :lng %>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%= Geokit::Geocoders::google %>"
+      type="text/javascript"></script>
+  <div id="map_div"></div>
+  <br />
+  <%= text_field_tag :address %>
+  <%= submit_to_remote 'geolocate_button', t('event.geolocate'),
+        :url => {:action => 'geolocate', :map => @map, :type => 'event', :method => :get},
+        :after => '$("#loading").css("visibility","visible")',
+        :complete => '$("#loading").css("visibility","hidden")', :html => {:class => "button"} %>
+   <%= image_tag "loading.gif", :id => "loading", :class => "hidden" %>
+</div>
+
+<div class="form_row">
+  <%= f.submit @event.new_record? ? t('global.create') : t('global.update'), :class => "button" %>
 </div>
 <% end %>
 
+
+<%= stylesheet_link_tag 'datepicker' %>
+<%= javascript_include_tag 'ui.core.js' %>
+<%= javascript_include_tag 'ui.datepicker.js' %>
+<%# FIXME: change the next line to become a property%>
+<%= javascript_include_tag 'i18n/ui.datepicker-es.js' %>
+<%= javascript_include_tag 'gmaps.js' %>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+    $('#event_start_time').val(get_date_or_new("start"));
+    $('#event_end_time').val(get_date_or_new("end"));
+
+    $('#event_start_time').datepicker({
+      minDate:"-10d",
+      altField: '#date_start'
+    });
+    
+    $('#event_end_time').datepicker({
+      beforeShow:customRange,
+      altField: '#date_end'
+    });
+
+    //set defaults to all datepickers
+    $.datepicker.setDefaults({
+      onSelect:change_time,
+      altFormat: 'yy-mm-dd'
+    });
+
+    $('#date_start').val($('#event_start_time').datepicker("getDate"));
+    $('#date_end').val($('#event_end_time').datepicker("getDate"));
+    
+    function change_time(dateText){
+        //if start_time bigger than end_time, will change end_time
+        start_date = $('#event_start_time').datepicker("getDate");
+        end_date = $('#event_end_time').datepicker("getDate");
+        if (start_date > end_date){
+          $('#event_end_time').datepicker("setDate",start_date);
+        }
+    }
+
+    function get_date_or_new(start_end){
+      where = '#event_'+start_end+'_time';
+      if ($(where).val() != ''){
+        return(new Date($(where).val().replace(/-/g,',')).toLocaleDateString());
+      } else {
+        return (new Date().toLocaleDateString());
+      }
+    };
+
+    function customRange(input) {
+      return {
+        minDate: ( (input.id == 'event_end_time' ? $('#event_start_time').datepicker("getDate") : null) )
+      };
+    };
+
+    //For Google Maps
+    initialize_map();
+    map.clearOverlays();
+    
+    if (parseFloat($('#event_lat').val()) != 0 && parseFloat($('#event_lng').val()) != 0){
+      geolocateAddress($('#event_lat').val(),$('#event_lng').val(),'Event Location', true, 'event');
+    }
+
+});
+</script>

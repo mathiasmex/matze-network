@@ -1,0 +1,12 @@
+<%- unless @some_contacts.empty? -%>
+  <h2>Send a message to:</h2>
+  <ul class="grid contacts small">
+    <%- @some_contacts.each do |contact| -%>
+      <li class="vcard">
+        <%= image_link(contact, :image_options => { :class => "photo fn" },
+                                :link => new_person_message_path(contact),
+                                :link_options =>  { :class => "url" }) %>
+      </li>
+    <%- end -%>
+  </ul>
+<%- end -%>

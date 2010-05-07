@@ -1,5 +1,5 @@
 <%- column_div :type => :primary do -%>
-<h2>Listing events</h2>
+<h2><%=t ('event.listing_events') %></h2>
 
 <ol class="list full">
   <%= render :partial => @events %>
@@ -8,9 +8,12 @@
 <% end -%>
 
 <% column_div :type => :secondary do -%>
+  <%= render :partial => 'search' %>
   <%= render :partial => 'calendar',
              :locals => { :events => @month_events, :date => @date } %>
 
-  <h2>Add new event</h2>
-  <%= link_to "Click here", new_event_path %>
+  <%= render :partial => 'event_location', :locals => { :events => @events } %>
+
+  <h2><%=t ('event.add_new_event') %></h2>
+  <%= link_to t('global.click_here'), new_event_path %>
 <% end -%>

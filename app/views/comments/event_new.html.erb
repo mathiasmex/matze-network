@@ -1,8 +1,8 @@
-<h2>Event comment</h2>
+<h2><%=t ('comment.event_comment') %></h2>
 
 <%= error_messages_for :comment %>
 
-<h3>Leave a comment</h3>
+<h3><%=t ('comment.leave_a_comment') %></h3>
 
 <% form_for :comment, :url => event_comments_path(@event),
             :html => { :id => "eventcomment" } do |f| %>
@@ -11,7 +11,7 @@
   </div>
   
   <div class="form_row">
-    <%= submit_tag "Submit", :class => "button" %>
+    <%= submit_tag t('global_submit'), :class => "button" %>
   </div>
 <% end %>
 

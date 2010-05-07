@@ -1,5 +1,5 @@
 <%- column_div :type => :primary do -%>
-  <h2>Discussion topics</h2>
+  <h2><%=t ('forum.discussion_topics') %></h2>
   
   <ol class="list forum full">
     <%= render :partial => 'topics/topic', :collection => @topics %>
@@ -7,13 +7,13 @@
   <%= will_paginate(@topics) %>
 
   <%- if logged_in? -%>
-      <h2>New Topic</h2>
+      <h2><%=t ('forum.new_topic') %></h2>
   
       <% form_for :topic, :url => forum_topics_path(@forum) do |f| %>
         <div class="form_row">
-          <%= f.label :name, "Subject" %>
+          <%= f.label :name, t('forum.subject') %>
           <%= f.text_field :name %>
-          <%= f.submit "Start", :class => "button" %>
+          <%= f.submit t('forum.start'), :class => "button" %>
         </div>
       <% end %>
   <%- end -%>

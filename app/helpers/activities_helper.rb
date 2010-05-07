@@ -2,17 +2,18 @@ module ActivitiesHelper
 
   # Given an activity, return a message for the feed for the activity's class.
   def feed_message(activity, recent = false)
-    person = activity.person
+    owner = activity.owner
     case activity_type(activity)
     when "BlogPost"
       post = activity.item
       blog = post.blog
-      view_blog = blog_link("#{h person.name}'s blog", blog)
+      view_blog = blog_link(t('post.owners_blog', :owner => h(owner.name)), blog)
       if recent
-        %(new blog post  #{post_link(blog, post)})
+        t 'post.new_blog_post_link', :blog_post => post_link(blog, post)
       else
-        %(#{person_link_with_image(person)} posted
-          #{post_link(blog, post)} &mdash; #{view_blog})
+        t 'post.owner_posted_blog_post', :owner => person_link_with_image(owner),
+                                         :blog_post => post_link(blog, post),
+                                         :blog => view_blog
       end
     when "Comment"
       parent = activity.item.commentable
@@ -22,103 +23,177 @@ module ActivitiesHelper
         post = activity.item.commentable
         blog = post.blog
         if recent
-          %(made a comment to #{someones(blog.person, person)} blog post
-            #{post_link(blog, post)})
+          t 'comment.to_owners_blog_post',
+                     :owner => someones(blog.owner, owner),
+                     :blog_post => post_link(blog, post)
         else
-          %(#{person_link_with_image(person)} made a comment to
-            #{someones(blog.person, person)} blog post
-            #{post_link(blog, post)})
+          t 'comment.author_to_owners_blog_post',
+                     :author => person_link_with_image(owner),
+                     :owner => someones(blog.owner, owner),
+                     :owner_blog_post => t('owner.blog_post'),
+                     :blog_post => post_link(blog, post)
         end
       when "Person"
         if recent
-          %(commented on #{wall(activity)})
+          t 'comment.commented_on_activity',
+                     :activity => wall(activity)
         else
-          %(#{person_link_with_image(activity.item.commenter)}
-            commented on #{wall(activity)})
+          t 'comment.person_commented_on_activity', 
+                     :person => person_link_with_image(activity.item.commenter), 
+                     :activity => wall(activity)
+        end
+      when "Group"
+        if recent
+          t 'comment.commented_on_group_activity',
+                     :activity => wall(activity)
+        else
+          t 'comment.person_commented_on_group_activity', 
+                     :person => person_link_with_image(activity.item.commenter), 
+                     :activity => wall(activity)
+        end
+      when "Event"
+        event = activity.item.commentable
+        if recent
+          t 'comment.commented_on_organizer_event',
+                     :organizer => someones(event.person, activity.item.commenter),
+                     :event => event_link(event.title, event)
+        else
+          t 'comment.person_commented_on_organizer_event',
+                     :person => person_link_with_image(activity.item.commenter), 
+                     :organizer => someones(event.person, activity.item.commenter),
+                     :event => event_link(event.title, event)
         end
       end
     when "Event"
       # TODO: make recent/long versions for this
       event = activity.item.commentable
       commenter = activity.item.commenter
-      %(#{person_link_with_image(commenter)} commented on 
-        #{someones(event.person, commenter)} event: 
-        #{event_link(event.title, event)}.)
+      t 'comment.person_commented_on_organizer_event', 
+                 :person => person_link_with_image(commenter), 
+                 :organizer => someones(event.person, commenter), 
+                 :event => event_link(event.title, event)
     when "Connection"
       if activity.item.contact.admin?
         if recent
-          %(joined the system)
+          t 'activity.just_joined'
         else
-          %(#{person_link_with_image(activity.item.person)}
-            has joined the system)
+          t 'activity.person_joined',
+                      :person => person_link_with_image(activity.item.person)
         end
       else
         if recent
-          %(connected with #{person_link_with_image(activity.item.contact)})
+          t 'person.connected_with',
+                    :person => person_link_with_image(activity.item.contact)
         else
-          %(#{person_link_with_image(activity.item.person)} and
-            #{person_link_with_image(activity.item.contact)} have connected)
+          t 'person.persons_have_connected', 
+                    :person1 => person_link_with_image(activity.item.person),
+                    :person2 => person_link_with_image(activity.item.contact)
         end
       end
     when "ForumPost"
       post = activity.item
       if recent
-        %(new post to forum topic #{topic_link(post.topic)})
+        t 'forum.new_forum_post',
+                 :topic => topic_link(post.topic)
       else
-        %(#{person_link_with_image(person)} made a post to forum topic
-          #{topic_link(post.topic)})
+        t 'forum.person_posted', 
+                 :person => person_link_with_image(owner),
+                 :topic => topic_link(post.topic)
       end
     when "Topic"
       if recent
-        %(new discussion topic #{topic_link(activity.item)})
+        t 'topic.new_discussion',
+                 :topic => topic_link(activity.item)
       else
-        %(#{person_link_with_image(person)} created the new discussion topic
-          #{topic_link(activity.item)})
+        t 'topic.person_posted', 
+                 :person => person_link_with_image(owner),
+                 :topic => topic_link(activity.item)
       end
     when "Person"
       if recent
-        %(description changed)
+        t 'person.description_changed'
       else
-        %(#{person_link_with_image(person)}'s description changed)
+        t 'person.persons_description_changed',
+                  :person => person_link_with_image(owner)
       end
     when "Gallery"
       if recent
-        %(new gallery #{gallery_link(activity.item)})
+        t 'gallery.new_gallery_added',
+                   :gallery => gallery_link(activity.item)
       else
-        %(#{person_link_with_image(person)} added a new gallery
-          #{gallery_link(activity.item)})
+        t 'gallery.owner_added_new_gallery',
+                   :owner => person_link_with_image(owner),
+                   :gallery => gallery_link(activity.item)
       end
     when "Photo"
       if recent
-        %(added new #{photo_link(activity.item)}
-          #{to_gallery_link(activity.item.gallery)})
+        t 'photo.new_photo_added',
+                 :photo => photo_link(activity.item),
+                 :gallery => to_gallery_link(activity.item.gallery)
       else
-        %(#{person_link_with_image(person)} added a new
-          #{photo_link(activity.item)}
-          #{to_gallery_link(activity.item.gallery)})
+        t 'photo.owner_added_new_photo',
+                 :owner => person_link_with_image(owner),
+                 :photo_str => t('photo.photo'),
+                 :photo => photo_link(activity.item),
+                 :gallery => to_gallery_link(activity.item.gallery)
       end
     when "Event"
       event = activity.item
-      %(#{person_link_with_image(person)} has created a new event:
-        #{event_link(event.title, event)}.)
+      if recent
+        t 'event.created_event',
+                 :event => event_link(event.title, event)
+      else
+        t 'event.owner_created_event',
+                 :owner => person_link_with_image(owner),
+                 :event => event_link(event.title, event)
+      end
     when "EventAttendee"
       event = activity.item.event
-      %(#{person_link_with_image(person)} is attending
-        #{someones(event.person, person)} event: 
-        #{event_link(event.title, event)}.) 
+      if recent
+        t 'event.attending_organizer_event',
+                 :organizer => someones(event.person, owner),
+                 :event => event_link(event.title, event)
+      else
+        t 'event.person_attending_organizer_event',
+                 :person => person_link_with_image(owner),
+                 :organizer => someones(event.person, owner),
+                 :event => event_link(event.title, event)
+      end
+    when "CompanyPerson"
+      t 'company.person_joined_company',
+                 :person => person_link(person),
+                 :company => company_tree(activity.item.company)
+    when "Group"
+      if owner.class.to_s == "Group"
+        t 'group.description_changed'
+      else
+        t 'group.person_created_group',
+                :person => person_link_with_image(owner),
+                :group_link => group_link(Group.find(activity.item))
+      end
+    when "Membership"
+      if owner.class.to_s == "Group"
+        t 'group.person_joined',
+                 :person => person_link(Person.find(activity.item.person))
+      else
+        t 'group.person_joined_group',
+                 :person => person_link_with_image(owner),
+                 :group_link => group_link(Group.find(activity.item.group))
+      end
     else
-      raise "Invalid activity type #{activity_type(activity).inspect}"
+      raise t('activity.invalid_activity_type', :activity => activity_type(activity).inspect)
     end
   end
   
   def minifeed_message(activity)
-    person = activity.person
+    owner = activity.owner
     case activity_type(activity)
     when "BlogPost"
       post = activity.item
       blog = post.blog
-      %(#{person_link(person)} made a
-        #{post_link("new blog post", blog, post)})
+      t 'post.person_new_blog_post',
+              :person => person_link(owner),
+              :new_blog_post => post_link(t('post.new_blog_post'), blog, post)
     when "Comment"
       parent = activity.item.commentable
       parent_type = parent.class.to_s
@@ -126,49 +201,85 @@ module ActivitiesHelper
       when "BlogPost"
         post = activity.item.commentable
         blog = post.blog
-        %(#{person_link(person)} made a comment on
-          #{someones(blog.person, person)} 
-          #{post_link("blog post", post.blog, post)})
+        t 'comment.author_to_persons_blog_post',
+                   :author => person_link(owner),
+                   :person => someones(blog.owner, owner),
+                   :person_blog_post => t('person.blog_post'),
+                   :blog_post => post_link(t('person.blog_post'), post.blog, post)
       when "Person"
-        %(#{person_link(activity.item.commenter)} commented on 
-          #{wall(activity)}.)
+        t 'comment.person_commented_on_activity',
+                   :person => person_link(activity.item.commenter),
+                   :activity => wall(activity)
       when "Event"
         event = activity.item.commentable
-        %(#{person_link(activity.item.commenter)} commented on 
-          #{someones(event.person, activity.item.commenter)} #{event_link("event", event)}.)
+        t 'comment.person_commented_on_organizer_event',
+                   :person => person_link(activity.item.commenter), 
+                   :organizer => someones(event.person, activity.item.commenter),
+                   :event => event_link(event.title, event)
+      when "Group"
+        t 'comment.person_commented_on_activity',
+                   :person => person_link_with_image(activity.item.commenter),
+                   :activity => wall(activity)
       end
     when "Connection"
       if activity.item.contact.admin?
-        %(#{person_link(person)} has joined the system)
+        t 'activity.person_joined',
+                    :person => person_link(owner)
       else
-        %(#{person_link(person)} and
-          #{person_link(activity.item.contact)} have connected)
+        t 'connection.persons_have_connected',
+                      :person1 => person_link(owner),
+                      :person2 => person_link(activity.item.contact)
       end
     when "ForumPost"
       topic = activity.item.topic
-      %(#{person_link(person)} made a
-        #{topic_link("forum post", topic)})
+      t 'forum.person_posted',
+               :person => person_link(owner),
+               :topic => topic_link(topic)
     when "Topic"
-      %(#{person_link(person)} created a 
-        #{topic_link("new discussion topic", activity.item)})
+      t 'topic.person_posted',
+               :person => person_link(owner),
+               :topic => topic_link(activity.item)
     when "Person"
-      %(#{person_link(person)}'s description changed)
+      t 'person.persons_description_changed',
+                :person => person_link(owner)
     when "Gallery"
-      %(#{person_link(person)} added a new gallery
-        #{gallery_link(activity.item)})
+      t 'gallery.person_added_new_gallery',
+                 :person => person_link(owner),
+                 :gallery => gallery_link(activity.item)
     when "Photo"
-      %(#{person_link(person)} added new
-        #{photo_link(activity.item)} #{to_gallery_link(activity.item.gallery)})
-      %(#{person_link(person)}'s description has changed.)
+      t 'photo.person_added_new_photo',
+               :person => person_link(owner),
+               :photo => photo_link(activity.item),
+               :photo_str => t('photo.photo'),
+               :gallery => to_gallery_link(activity.item.gallery)
     when "Event"
-      %(#{person_link(person)}'s has created a new
-        #{event_link("event", activity.item)}.)
+      t 'event.person_created_event',
+               :person => person_link(owner),
+               :event => event_link(activity.item)
     when "EventAttendee"
       event = activity.item.event
-      %(#{person_link(person)} is attending
-        #{someones(event.person, person)} #{event_link("event", event)}.)
+      t 'event.person_attending_organizer_event',
+               :person => person_link(owner),
+               :organizer => someones(event.person, owner),
+               :event => event_link(event.title, event)
+    when "CompanyPerson"
+      t 'company.person_joined_company',
+                 :person => person_link(owner),
+                 :company => company_tree(activity.item.company)
+    when "Group"
+      if owner.class.to_s == "Group"
+        t 'group_description_changed'
+      else
+        t 'group.person_created_group',
+                :person => person_link(owner),
+                :group_link => group_link(Group.find(activity.item))
+      end
+    when "Membership"
+      t 'group.person_joined_group',
+               :person => person_link(owner),
+               :group => group_link(Group.find(activity.item.group))
     else
-      raise "Invalid activity type #{activity_type(activity).inspect}"
+      raise t('activity.invalid_activity_type', :activity => activity_type(activity).inspect)
     end
   end
   
@@ -185,6 +296,8 @@ module ActivitiesHelper
               when "Event"
                 "comment.png"
               when "Person"
+                "sound.png"
+              when "Group"
                 "sound.png"
               end
             when "Connection"
@@ -209,14 +322,27 @@ module ActivitiesHelper
             when "EventAttendee"
               # TODO: replace with a png icon
               "check.gif"
+            when "CompanyPerson"
+                "bargraph.gif"
+            when "Group"
+              if activity.owner.class.to_s == "Group"
+                # TODO: replace with a group_edit png icon
+                "user_edit.png"
+              else
+                # TODO: replace with a group png icon
+                "asterisk_yellow.png"
+              end
+            when "Membership"
+              # TODO: replace with a png icon
+              "add.gif"
             else
-              raise "Invalid activity type #{activity_type(activity).inspect}"
+              raise t('activity.invalid_activity_type', :activity => activity_type(activity).inspect)
             end
     image_tag("icons/#{img}", :class => "icon")
   end
   
   def someones(person, commenter, link = true)
-    link ? "#{person_link_with_image(person)}'s" : "#{h person.name}'s"
+    link ? t('person.persons', :person =>person_link_with_image(person)) : t('person.persons', :person => h(person.name))
   end
   
   def blog_link(text, blog)
@@ -252,14 +378,14 @@ module ActivitiesHelper
     if text.nil?
       ''
     else
-      'to the ' + gallery_link(text, gallery) + ' gallery'
+      t 'gallery.to_gallery', :gallery => gallery_link(text, gallery)
     end
   end
   
   def photo_link(text, photo= nil)
     if photo.nil?
       photo = text
-      text = "photo"
+      text = t('photo.photo')
     end
     link_to(h(text), photo_path(photo))
   end
@@ -268,13 +394,18 @@ module ActivitiesHelper
     link_to(text, event_path(event))
   end
 
-
   # Return a link to the wall.
   def wall(activity)
-    commenter = activity.person
-    person = activity.item.commentable
-    link_to("#{someones(person, commenter, false)} wall",
-            person_path(person, :anchor => "tWall"))
+    commenter = activity.owner
+    if activity.item.commentable.class.to_s == "Person"
+      person = activity.item.commentable
+      link_to(t('person.person_wall', :person => someones(person, commenter, false)), 
+        person_path(person, :anchor => "tWall"))
+    else
+      group = activity.item.commentable
+      link_to(t('group.group_wall', :group => someones(group, commenter, false)),
+        group_path(group, :anchor => "tWall"))
+    end
   end
   
   # Only show member photo for certain types of activity
@@ -288,7 +419,7 @@ module ActivitiesHelper
       false
     end
     if shouldShow
-      image_link(activity.person, :image => :thumbnail)
+      image_link(activity.owner, :image => :thumbnail)
     end
   end
   

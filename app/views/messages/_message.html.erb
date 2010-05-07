@@ -5,32 +5,37 @@
                    :image_options => { :class => "photo" } %>
   </div>
   <p>
-    <span class="label">Subject:</span>
+    <span class="label"><%=t ('message.subject') %></span>
     <%= link_to sanitize(message.subject), message %>
   </p>
   <p>
     <%= message_icon(message) %>
     <%- if current_person?(message.sender) -%>
-      <span class="label">To:</span>
+      <span class="label"><%=t ('message.to') %></span>
       <%= person_link message.recipient, :class => "url fn" %>
     <%- else -%>
-      <span class="label">From:</span>
+      <span class="label"><%=t ('message.from') %></span>
       <%= person_link message.sender, :class => "url fn" %>
     <%- end -%>
 <br />
   <span class="tools meta">
-  Sent <%= time_ago_in_words message.created_at %> ago 
+    <%= t('global.ago', :time_ago => time_ago_in_words(message.created_at)) %>
+    <%- if current_person?(message.sender) -%>
+      <%=t ('message.dispatched') %>
+    <%- else -%>
+      <%=t ('message.received') %>
+    <%- end -%>
     <%= link_to image_tag("icons/email_edit.png", :class => 'actioner'), 
                 reply_message_path(message),
-                :title => "Reply to this message" %>
+                :title => t('message.reply_to_this_message') %>
     <% unless message.trashed?(current_person) -%>
       <%= link_to image_tag("icons/email_delete.png", :class => 'actioner'), 
                   message_path(message), 
                   :method => :delete, 
-                  :confirm => %(Delete this message?),
-                  :title => "Delete this message" %>
+                  :confirm => t('message.delete_message_confirmation'),
+                  :title => t('message.delete_message') %>
     <% else -%>
-      <%= link_to "Untrash", undestroy_message_path(message),
+      <%= link_to t('message.untrash'), undestroy_message_path(message),
                              :method => :put %>
     <% end -%>    
   </span>

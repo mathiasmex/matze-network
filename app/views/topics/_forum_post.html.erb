@@ -4,22 +4,23 @@
     <%= image_link forum_post.person, :image => :thumbnail %>
     <%= image_tag "icons/comment.png", :class => "icon" %>
   </div>
-
-
   <p class="meta">
-  Posted by <span class="author"><%= person_link_with_image forum_post.person %></span> 
-      <abbr class="updated" title="<%= forum_post.created_at %>"><%= time_ago_in_words(forum_post.created_at) %> ago</abbr>
+    <%=t ('topic.posted_by') %>
+    <span class="author"><%= person_link_with_image forum_post.person %></span> 
+      <abbr class="updated" title="<%= forum_post.created_at %>">
+      <%=t ('global.ago', :time_ago => time_ago_in_words(forum_post.created_at)) %>
+      </abbr>
       <%- if current_person?(forum_post.person) or admin? -%>
         <%= link_to image_tag("icons/note_edit.png", :class => 'actioner'),
-                edit_forum_topic_post_path(@forum, @topic, forum_post),
-         :title => 'Edit' %>
+                      edit_forum_topic_post_path(@forum, @topic, forum_post),
+                      :title => t('post.edit_post') %>
       <%- end -%>
       <%- if admin? -%>
         <%= link_to image_tag("icons/comment_delete.png", :class => 'actioner'),
                       forum_topic_post_path(@forum, @topic, forum_post),
-                      :confirm => 'Delete comment?',
+                      :confirm => t('comment.delete_comment_confirmation'),
                       :method => :delete,
-             :title => 'Delete' %>
+                      :title => t('comment.delete_comment') %>
       <%- end -%>
   </p>
   <div class="forum">

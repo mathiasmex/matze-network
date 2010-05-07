@@ -31,13 +31,16 @@
 class Person < ActiveRecord::Base
   include ActivityLogger
   extend PreferencesHelper
+  require 'geokit'
+  require 'vendor/plugins/geokit-rails/init.rb'
+  acts_as_mappable
 
   attr_accessor :password, :verify_password, :new_password,
                 :sorted_photos
   attr_accessible :email, :password, :password_confirmation, :name,
                   :description, :connection_notifications,
                   :message_notifications, :wall_comment_notifications,
-                  :blog_comment_notifications, :identity_url
+                  :blog_comment_notifications, :identity_url, :lat, :lng, :address
   # Indexed fields for Sphinx
   is_indexed :fields => [ 'name', 'description', 'deactivated',
                           'email_verified'],
@@ -67,15 +70,17 @@ class Person < ActiveRecord::Base
                             (email_verified IS NULL OR email_verified = ?)),
                           Connection::REQUESTED, false, true]
 
-  has_one :blog
+  has_one :blog, :as => :owner
+  has_many :company_person
+  has_many :companies, :through => :company_person, :source => :company, :order => :name
   has_many :email_verifications
   has_many :comments, :as => :commentable, :order => 'created_at DESC',
                       :limit => NUM_WALL_COMMENTS
   has_many :connections
   has_many :contacts, :through => :connections,
                       :conditions => ACCEPTED_AND_ACTIVE,
-                      :order => 'people.created_at DESC'
-  has_many :photos, :dependent => :destroy, :order => 'created_at'
+                      :order => 'people.name ASC'
+  has_many :photos, :as => :owner, :dependent => :destroy, :order => 'created_at'
   has_many :requested_contacts, :through => :connections,
            :source => :contact,
            :conditions => REQUESTED_AND_ACTIVE
@@ -93,10 +98,31 @@ class Person < ActiveRecord::Base
                                             :include => :person
 
   has_many :page_views, :order => 'created_at DESC'
-  has_many :galleries
+  has_many :galleries, :as => :owner
   has_many :events
   has_many :event_attendees
   has_many :attendee_events, :through => :event_attendees, :source => :event
+
+  has_many :own_groups, :class_name => "Group",
+                        :foreign_key => "person_id",
+                        :order => "name ASC"
+  has_many :own_not_hidden_groups, :class_name => "Group", 
+                                   :foreign_key => "person_id",
+                                   :conditions => "mode != 2",
+                                   :order => "name ASC"
+  has_many :own_hidden_groups, :class_name => "Group", 
+                               :foreign_key => "person_id",
+                               :conditions => "mode = 2",
+                               :order => "name ASC"
+  has_many :memberships
+  has_many :groups, :through => :memberships,
+                    :source => :group, 
+                    :conditions => "status = 0",
+                    :order => "name ASC"
+  has_many :groups_not_hidden, :through => :memberships,
+                               :source => :group,
+                               :conditions => "status = 0 and mode != 2",
+                               :order => "name ASC"
 
   validates_presence_of     :email, :name
   validates_presence_of     :password,              :if => :password_required?
@@ -116,7 +142,8 @@ class Person < ActiveRecord::Base
   before_create :create_blog, :check_config_for_deactivation
   before_save :encrypt_password
   before_validation :prepare_email, :handle_nil_description
-  after_create :connect_to_admin
+#  after_create :connect_to_admin
+#  after_create :create_company
 
   before_update :set_old_description
   after_update :log_activity_description_changed
@@ -169,6 +196,17 @@ class Person < ActiveRecord::Base
 
   ## Feeds
 
+  #FIXME: it's done to replace the "has many :activities"
+  def activities
+    feeds.find(:all, :include => [:person,:activity], 
+      :order => 'activities.created_at DESC', :limit => FEED_SIZE, 
+      :conditions => ["people.deactivated = ?",false]).collect{|x| x.activity}
+#    has_many :activities, :through => :feeds, :order => 'activities.created_at DESC',
+#                                            :limit => FEED_SIZE,
+#                                            :conditions => ["people.deactivated = ?", false],
+#                                            :include => :people
+  end
+
   # Return a person-specific activity feed.
   def feed
     len = activities.length
@@ -182,8 +220,9 @@ class Person < ActiveRecord::Base
   end
 
   def recent_activity
-    Activity.find_all_by_person_id(self, :order => 'created_at DESC',
-                                         :limit => FEED_SIZE)
+    Activity.find_all_by_owner_id(self, :order => 'created_at DESC',
+                                        :conditions => "owner_type = 'Person'",
+                                        :limit => FEED_SIZE)
   end
 
   ## For the home page...
@@ -191,6 +230,16 @@ class Person < ActiveRecord::Base
   # Return some contacts for the home page.
   def some_contacts
     contacts[(0...MAX_DEFAULT_CONTACTS)]
+  end
+
+  def requested_memberships
+    Membership.find(:all, 
+          :conditions => ['status = 2 and group_id in (?)', self.own_group_ids])
+  end
+  
+  def invitations
+    Membership.find_all_by_person_id(self, 
+          :conditions => ['status = 1'], :order => 'created_at DESC')
   end
 
   # Contact links for the contact image raster.
@@ -379,6 +428,11 @@ class Person < ActiveRecord::Base
     (contacts & other_person.contacts).paginate(options)
   end
   
+  # Return true if it has insert its geolocation
+  def geolocated?
+    self.lat != 0 and self.lng != 0
+  end
+  
   protected
 
     ## Callbacks
@@ -392,7 +446,7 @@ class Person < ActiveRecord::Base
     # Some databases (e.g., MySQL) don't allow default values for text fields.
     # By default, "blank" fields are really nil, which breaks certain
     # validations; e.g., nil.length raises an exception, which breaks
-    # validates_length_of.  Fix this by setting the description to the empty
+    # validates_length_of. Fix this by setting the description to the empty
     # string if it's nil.
     def handle_nil_description
       self.description = "" if description.nil?
@@ -415,7 +469,7 @@ class Person < ActiveRecord::Base
 
     def log_activity_description_changed
       unless @old_description == description or description.blank?
-        add_activities(:item => self, :person => self)
+        add_activities(:item => self, :owner => self)
       end
     end
     
@@ -428,6 +482,10 @@ class Person < ActiveRecord::Base
       Feed.find_all_by_person_id(self).each {|f| f.destroy}
     end
 
+    def destroy_groups
+      Group.find_all_by_person_id(self).each {|g| g.destroy}
+    end
+
     # Connect new users to "Tom".
     def connect_to_admin
       # Find the first admin created.
@@ -436,6 +494,10 @@ class Person < ActiveRecord::Base
       unless tom.nil? or tom == self
         Connection.connect(self, tom)
       end
+    end
+
+    def create_company
+      self.company_person = CompanyPerson.new()
     end
 
     ## Other private method(s)

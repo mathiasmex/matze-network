@@ -1,11 +1,11 @@
-<h1>Listing comments</h1>
+<h1><%=t ('comment.listing_comments') %></h1>
 
 <table>
   <tr>
-    <th>Person</th>
-    <th>Blog</th>
-    <th>Body</th>
-    <th>Type</th>
+    <th><%=t ('comment.person') %></th>
+    <th><%=t ('comment.blog') %></th>
+    <th><%=t ('comment.body') %></th>
+    <th><%=t ('comment.type') %></th>
   </tr>
 
 <% for comment in @comments %>
@@ -14,13 +14,13 @@
     <td><%=h comment.blog_id %></td>
     <td><%=h comment.body %></td>
     <td><%=h comment.type %></td>
-    <td><%= link_to 'Show', comment %></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('global.show'), comment %></td>
+    <td><%= link_to t('global.edit'), edit_comment_path(comment) %></td>
+    <td><%= link_to t('global.destroy'), comment, :confirm => t('global.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New comment', new_comment_path %>
+<%= link_to t('comment.new_comment'), new_comment_path %>

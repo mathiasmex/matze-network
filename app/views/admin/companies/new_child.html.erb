@@ -1,0 +1,11 @@
+<h2>Add a child to "<%= @parent.name %>" </h2>
+
+<% form_for(:company, :url => admin_companies_path(@company), :html => {:method => :post}) do |f| %>
+  <%= f.error_messages %>
+
+  <%= render :partial => 'company', :locals => {:f => f} %>
+  
+  <p>
+    <%= f.submit "Create", :class => "button" %>
+  </p>
+<% end %>

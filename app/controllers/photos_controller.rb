@@ -4,7 +4,7 @@ class PhotosController < ApplicationController
   before_filter :correct_user_required,
                 :only => [ :edit, :update, :destroy, :set_primary, 
                            :set_avatar ]
-  before_filter :correct_gallery_requried, :only => [:new, :create]
+  before_filter :correct_gallery_required, :only => [:new, :create]
   
   def index
     redirect_to person_galleries_path(current_person)
@@ -14,10 +14,17 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
   end
 
-  
   def new
     @photo = Photo.new
     @gallery = Gallery.find(params[:gallery_id])
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def new
+    @photo = Photo.new
+
     respond_to do |format|
       format.html
     end
@@ -33,16 +40,18 @@ class PhotosController < ApplicationController
   def create
     if params[:photo].nil?
       # This is mainly to prevent exceptions on iPhones.
-      flash[:error] = "Your browser doesn't appear to support file uploading"
+      flash[:error] = t('flash.browser_no_file_upload')
       redirect_to gallery_path(Gallery.find(params[:gallery_id])) and return
     end
 
-    photo_data = params[:photo].merge(:person => current_person)
+    photo_data = params[:photo].merge(:owner_id => @gallery.owner.id,
+                                      :owner_type => @gallery.owner_type)
+
     @photo = @gallery.photos.build(photo_data)
 
     respond_to do |format|
       if @photo.save
-        flash[:success] = "Photo successfully uploaded"
+        flash[:success] = t('flash.photo_uploaded')
         format.html { redirect_to @photo.gallery }
       else
         format.html { render :action => "new" }
@@ -55,7 +64,7 @@ class PhotosController < ApplicationController
     
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        flash[:success] = "Photo successfully updated"
+        flash[:success] = t('flash.photo_updated')
         format.html { redirect_to(gallery_path(@photo.gallery)) }
       else
         format.html { render :action => "new" }
@@ -67,7 +76,7 @@ class PhotosController < ApplicationController
     @gallery = @photo.gallery
     redirect_to person_galleries_path(current_person) and return if @photo.nil?
     @photo.destroy
-    flash[:success] = "Photo deleted"
+    flash[:success] = t('flash.photo_deleted')
     respond_to do |format|
       format.html { redirect_to gallery_path(@gallery) }
     end
@@ -76,18 +85,27 @@ class PhotosController < ApplicationController
   def set_primary
     @photo = Photo.find(params[:id])
     if @photo.nil? or @photo.primary?
-      redirect_to person_galleries_path(current_person) and return
+      if @photo.owner_type == "Person"
+        redirect_to person_galleries_path(current_person) and return
+      else
+        redirect_to group_galleries_path(@photo.owner) and return
+      end
     end
     # This should only have one entry, but be paranoid.
     @old_primary = @photo.gallery.photos.select(&:primary?)
     respond_to do |format|
       if @photo.update_attributes(:primary => true)
         @old_primary.each { |p| p.update_attributes!(:primary => false) }
-        format.html { redirect_to(person_galleries_path(current_person)) }
-        flash[:success] = "Gallery thumbnail set"
-      else    
+        if @photo.owner_type == "Person"
+          format.html { redirect_to(person_galleries_path(current_person)) }
+          flash[:success] = t('flash.gallery_thumbnail_set')
+        else
+          format.html { redirect_to(group_galleries_path(@photo.owner)) }
+          flash[:success] = t('flash.gallery_thumbnail_set')
+        end
+      else
         format.html do
-          flash[:error] = "Invalid image!"
+          flash[:error] = t('flash.invalid_image')
           redirect_to home_url
         end
       end
@@ -97,19 +115,23 @@ class PhotosController < ApplicationController
   def set_avatar
     @photo = Photo.find(params[:id])
     if @photo.nil? or @photo.avatar?
-      redirect_to current_person and return
+      if @photo.owner_type == "Person"
+        redirect_to current_person and return
+      else
+        redirect_to @photo.owner and return
+      end
     end
     # This should only have one entry, but be paranoid.
-    @old_primary = current_person.photos.select(&:avatar?)
+    @old_primary = @photo.owner.photos.select(&:avatar?)
   
     respond_to do |format|
       if @photo.update_attributes!(:avatar => true)
         @old_primary.each { |p| p.update_attributes!(:avatar => false) }
-        flash[:success] = "Profile photo set"
-        format.html { redirect_to current_person }
-      else    
+        flash[:success] = t('flash.profile_photo_set')
+        format.html { redirect_to (@photo.owner) }
+      else
         format.html do
-          flash[:error] = "Invalid image!"
+          flash[:error] = t('flash.invalid_image')
           redirect_to home_url
         end
       end
@@ -122,22 +144,30 @@ class PhotosController < ApplicationController
       @photo = Photo.find(params[:id])
       if @photo.nil?
         redirect_to home_url
-      elsif !current_person?(@photo.person)
-        redirect_to home_url
+      elsif @photo.owner_type == "Person"
+        if !current_person?(@photo.owner)
+          redirect_to home_url
+        end
+      elsif !current_person.own_groups.include?(@photo.owner)
       end
     end
     
-    def correct_gallery_requried
+    def correct_gallery_required
       if params[:gallery_id].nil?
-        flash[:error] = "You cannot add photo without specifying gallery"
+        flash[:error] = t('flash.no_photo_without_gallery')
         redirect_to home_path
       else
         @gallery = Gallery.find(params[:gallery_id])
-        if @gallery.person != current_person
-          flash[:error] = "You cannot add photos to this gallery"
-          redirect_to gallery_path(@gallery)
+        if @gallery.owner_type == "Person"
+          if @gallery.owner != current_person
+            flash[:error] = t('flash.no_photo_to_gallery')
+            redirect_to person_galleries_path(@gallery.owner)
+          end
+        elsif !current_person.own_groups.include?(@gallery.owner)
+          flash[:error] = t('flash.not_owner_of_gallery')
+          redirect_to person_galleries_path(@gallery.owner)
         end
       end
     end
-end
 
+end

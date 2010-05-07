@@ -1,13 +1,13 @@
 <li>
   <p class="meta">
     <%= image_tag "icons/comment.png", :class => "icon", :alt => "Comment" %>
-    <%= person_link comment.commenter %> posted a comment
-    <%= time_ago_in_words(comment.created_at) %> ago:
+    <%=t ('comment.person_posted_comment', :person => person_link(comment.commenter)) %>
+    <%=t ('global.ago', :time_ago => time_ago_in_words(comment.created_at)) %>
   </p>
   <%= display comment.body %>
-  <%- if current_person?(comment.commentable.blog.person) -%>
+  <%- if current_person?(comment.commentable.blog.owner) -%>
   <div>
-    <%= link_to "delete", blog_post_comment_path(@blog, @post, comment),
+    <%= link_to t('global.delete'), blog_post_comment_path(@blog, @post, comment),
                           :method => :delete %>
   </div>
   <%- end -%>

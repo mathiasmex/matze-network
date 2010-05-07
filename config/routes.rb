@@ -1,12 +1,33 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :memberships, :member => { :unsuscribe => :delete,
+                                           :suscribe => :post }
+
+  map.resources :groups,
+       :member => { :join => :post,
+       :leave => :post,
+       :members => :get,
+       :invite => :get,
+       :invite_them => :post,
+       :photos => :get,
+       :new_photo => :post,
+       :save_photo => :post,
+       :delete_photo => :delete } do |group|
+    group.resources :memberships
+    group.resources :galleries
+    group.resources :comments
+  end
+
   map.resources :categories
   map.resources :links
   map.resources :events, :member => { :attend => :get, 
-                                      :unattend => :get } do |event|
+                                      :unattend => :get },
+                                      :collection => { :geolocate => :get,
+                                      :showlocation => :get, :search => :get } do |event|
     event.resources :comments
   end
 
   map.resources :preferences
+  map.resources :companies
   map.resources :searches
   map.resources :activities
   map.resources :connections
@@ -25,7 +46,12 @@ ActionController::Routing::Routes.draw do |map|
                                       :common_contacts => :get }
   map.connect 'people/verify/:id', :controller => 'people',
                                    :action => 'verify_email'
-  map.resources :people do |person|
+  map.resources :people, :member => { :add_company => :put,
+                                       :delete_company => :delete,
+                                       :groups => :get,
+                                       :admin_groups => :get,
+                                       :request_memberships => :get,
+                                       :invitations => :get } do |person|
      person.resources :messages
      person.resources :galleries
      person.resources :connections
@@ -36,7 +62,8 @@ ActionController::Routing::Routes.draw do |map|
     gallery.resources :photos
   end
   map.namespace :admin do |admin|
-    admin.resources :people, :preferences
+    admin.resources :people, :preferences, :groups
+    admin.resources :companies, :member => { :new_child => :get }
     admin.resources :forums do |forums|
       forums.resources :topics do |topic|
         topic.resources :posts

@@ -128,9 +128,9 @@ class Connection < ActiveRecord::Base
     end
   
     def log_activity(conn)
-      activity = Activity.create!(:item => conn, :person => conn.person)
-      add_activities(:activity => activity, :person => conn.person)
-      add_activities(:activity => activity, :person => conn.contact)
+      activity = Activity.create!(:item => conn, :owner => conn.person)
+      add_activities(:activity => activity, :owner => conn.person)
+      add_activities(:activity => activity, :owner => conn.contact)
     end
   end
 end

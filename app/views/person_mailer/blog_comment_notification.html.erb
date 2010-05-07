@@ -1,4 +1,4 @@
-You have a new comment on your blog from <%= @comment.commenter.name %>:
+<%= t('comment.new_blog_comment_notification', :person => h(@comment.commenter.name)) %>
 
 http://<%= @server %><%= @url %>
 

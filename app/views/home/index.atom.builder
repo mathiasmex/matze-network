@@ -1,6 +1,6 @@
 activities = @feed
 atom_feed do |feed|
-  feed.title(app_name + " Activity")
+  feed.title(app_name + " " + t('home_activity'))
   feed.updated(activities.first.updated_at)
 
   for activity in activities
@@ -9,7 +9,7 @@ atom_feed do |feed|
       entry.content(feed_message(activity, false), :type => 'html')
 
       entry.author do |author|
-        author.name(activity.person.name)
+        author.name(activity.owner.name)
       end
     end
   end

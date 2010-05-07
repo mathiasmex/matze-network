@@ -1,12 +1,12 @@
 one:
-  person: quentin
+  owner: quentin
 two:
-  person: aaron
+  owner: aaron
 three:
-  person: kelly
+  owner: kelly
 four:
-  person: admin
+  owner: admin
 five:
-  person: deactivated
+  owner: deactivated
 six:
-  person: email_unverified
+  owner: email_unverified

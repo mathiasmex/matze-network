@@ -1,0 +1,34 @@
+<%- column_div :type => :primary do -%>
+<h2><%=t ('event.events_location_near_you') %></h2>
+  <%- if events.empty? -%>
+    <p><%=t ('event.no_events_near_you') %></p>
+    <p><%= link_to t('event.show_all_events'), events_path %></p>
+  <%- else -%>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%= Geokit::Geocoders::google %>"
+       type="text/javascript"></script>
+    <%= javascript_include_tag 'gmaps.js' %>
+    <div id="map_div" style="width:420px"></div>
+    <script type='text/javascript'>
+      $(document).ready(function(){
+        initialize_map();
+        bounds = new GLatLngBounds();
+        <%- events.each do |event| -%>
+            <%- if event.geolocated? -%>
+              bounds.extend(new GLatLng(<%= event.lat.to_s + ','+ event.lng.to_s %>));
+              addAddressToMap(<%= event.lat.to_s + ',' + event.lng.to_s + ',' + "'#{event.title}'"%>, false, 'event');
+            <%- end -%>
+        <%- end -%>
+        <%- if @person.geolocated? -%>
+          addAddressToMap(<%= @person.lat.to_s + ',' + @person.lng.to_s + ',' + "'#{@person.name}'"%>, false,'person');
+          bounds.extend(new GLatLng(<%= @person.lat.to_s + ','+ @person.lng.to_s %>));
+        <%- end -%>
+        map.setCenter(bounds.getCenter());
+        map.setZoom(map.getBoundsZoomLevel(bounds)-1);
+      });
+    </script>
+  <%- end -%>
+<%- end -%>
+
+<%- column_div :type => :secondary do -%>
+  <%= render :partial => 'events/search' %>
+<%- end -%>

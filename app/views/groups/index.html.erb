@@ -1,0 +1,20 @@
+<%- column_div :type => :primary do -%>
+  <h2><%=t ('groups.groups') %></h2>
+  <% unless @groups.empty? -%>
+    <%= will_paginate %>
+    <ul class="list people">
+      <%= render :partial => @groups %>
+    </ul>
+    <%= will_paginate %>
+  <% else %>
+    <h3><%=t ('groups.no_groups_yet') %></h3>
+  <% end -%>
+
+  <%= link_to t('group.new_group'), new_group_path() %>
+  
+<%- end -%>
+
+<%- column_div :type => :secondary do -%>
+  <%= render :partial => 'searches/box' %>
+  <%= render :partial => 'shared/minifeed' %>
+<%- end -%>

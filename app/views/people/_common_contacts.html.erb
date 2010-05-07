@@ -1,10 +1,9 @@
 <%- unless current_person?(@person) or @common_contacts.empty? -%>
-    <h2>Common Contacts</h2>
-    
+    <h2><%=t ('person.common_contacts') %></h2>
 
     <%- if @common_contacts.length > Person::MAX_DEFAULT_CONTACTS -%>
         <div class="button see_all_link">
-          <%= link_to "See All",
+          <%= link_to t('global.see_all'),
                       common_contacts_person_path(@person) %>
         </div>
     <%- end -%>    

@@ -1,0 +1,27 @@
+<div class="profile vcard">
+<h2>
+  <%= render :partial => "shared/company_tree", 
+             :locals => {:company => @company} %>
+</h2>
+
+<%= display @company.description %>
+
+<%- if @company.parent.nil? -%>
+  <p>
+    <b>Web:</b>
+    <%= link_to @company.web, @company.web unless @company.web.nil?%>
+  </p>
+<%- end -%>
+
+<%- unless Preference.find(:first).node_number == @company.ancestors.length+1 -%>
+  <p>
+    <b>Childs:</b>
+    <span class="">[ <%= link_to 'add child', new_child_admin_company_path %> ]</span>
+    <%= render :partial => "childs", :locals => {:node => @company}%>
+  </p>
+<%- end -%>
+
+<br />
+<%= link_to 'Edit', edit_admin_company_path(@company) %> |
+<%= link_to 'Back', @company.parent.nil? ? admin_companies_path : admin_company_path(@company.root) %>
+</div>

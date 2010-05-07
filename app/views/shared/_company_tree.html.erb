@@ -1,0 +1,6 @@
+<%= company_tree(company) %>
+<%- if params[:action] == 'edit' -%>
+  <span class="small">[ <%= link_to "Delete", delete_company_person_path(@person)+"?company_id=#{company.id}",
+                                :confirm => 'Are you sure?',
+                                :method => :delete %> ]</span>
+<%- end -%>

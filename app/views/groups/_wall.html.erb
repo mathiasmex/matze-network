@@ -1,0 +1,29 @@
+<h2><%= t('group.comment_wall', :group => @group.name) %></h2>
+<a name="wall"></a>
+<%- if is_member_of?(@group) -%>
+  <p><%= formatting_note %></p>  
+  <% form_for :comment, :url => group_comments_path(@group) do |f| %>
+      <div class="form_row">
+        <%= f.text_area :body, :rows => 2, :cols => 80 %>
+      </div>
+      <div class="form_row">
+        <%= submit_tag t('global.submit'), :class => "button" %>
+      </div>
+  <% end %>
+<%- else -%>
+  <p>
+  <%= t('group.must_be_member_notice', :group => h(@group.name)) %>
+  </p>
+  <p>
+  <%= link_to t('group.join_now', :group => h(@group.name)),
+              group_memberships_path(@group), :method => :post %>
+  </p>
+<%- end -%>
+
+
+<%- unless @group.comments.empty? -%>
+  <ul class="list comments full">
+    <%= render :partial => 'comment', :collection => @group.comments %>
+  </ul>
+<%- end -%>
+

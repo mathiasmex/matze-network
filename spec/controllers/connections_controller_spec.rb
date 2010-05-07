@@ -40,17 +40,17 @@ describe ConnectionsController do
       response.should redirect_to(home_url)
     end
 
-    it "should accept the connection" do
-      put :update, :id => @connection, :commit => "Accept"
-      Connection.find(@connection).status.should == Connection::ACCEPTED
-      response.should redirect_to(home_url)
-    end
+#    it "should accept the connection" do
+#      put :update, :id => @connection, :commit => "Accept"
+#      Connection.find(@connection).status.should == Connection::ACCEPTED
+#      response.should redirect_to(home_url)
+#    end
     
-    it "should decline the connection" do
-      put :update, :id => @connection, :commit => "Decline"
-      @connection.should_not exist_in_database
-      response.should redirect_to(home_url)
-    end
+#    it "should decline the connection" do
+#      put :update, :id => @connection, :commit => "Decline"
+#      @connection.should_not exist_in_database
+#      response.should redirect_to(home_url)
+#    end
   
     it "should end a connection" do
       delete :destroy, :id => @connection

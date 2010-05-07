@@ -1,8 +1,8 @@
-<h2>Wall comment</h2>
+<h2><%=t ('comment.wall_comment') %></h2>
 
 <%= error_messages_for :comment %>
 
-<h3>Leave a comment</h3>
+<h3><%=t ('comment.leave_a_comment') %></h3>
 
 <% form_for :comment, :url => person_comments_path(@person) do |f| %>
   <div class="form_row">
@@ -10,6 +10,6 @@
   </div>
   
   <div class="form_row">
-    <%= submit_tag "Submit", :class => "button" %>
+    <%= submit_tag t('global.submit'), :class => "button" %>
   </div>
 <% end %>

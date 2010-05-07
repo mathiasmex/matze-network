@@ -10,9 +10,10 @@
                   @message %>
     <%- end -%>    
   </div>
-  <p><span class="field">From:</span> <%= person_link message.sender %></p>
+  <p><span class="field"><%= t('message.from') %></span> <%= person_link message.sender %></p>
   <p class="meta published">
-    <%= time_ago_in_words message.created_at %> ago
+    <%= t('global.ago', :time_ago => time_ago_in_words(message.created_at)) %>
+    <%=t ('message.received') %>
   </p>
   <p title="Subject">
     <%= link_to sanitize(truncate(message.subject, :length => 30)),

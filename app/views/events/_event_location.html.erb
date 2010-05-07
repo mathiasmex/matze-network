@@ -1,0 +1,20 @@
+<h2><%= t('event.events_location') unless params[:action] == 'show' %></h2>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%= Geokit::Geocoders::google %>"
+     type="text/javascript"></script>
+  <%= javascript_include_tag 'gmaps.js' %>
+  <div id="map_div" style="width:300px"></div>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    initialize_map();
+    bounds = new GLatLngBounds();
+    <%- events.each do |event| -%>
+        <%- if event.geolocated? -%>
+          bounds.extend(new GLatLng(<%= event.lat.to_s + ','+ event.lng.to_s %>));
+          addAddressToMap(<%= event.lat.to_s + ',' + event.lng.to_s + ',' + "'#{event.title}'"%>, false, 'event');
+        <%- end -%>
+    <%- end -%>
+    map.setCenter(bounds.getCenter());
+    map.setZoom(map.getBoundsZoomLevel(bounds)-1);
+  });
+</script>

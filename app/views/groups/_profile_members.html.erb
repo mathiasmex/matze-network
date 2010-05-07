@@ -1,0 +1,30 @@
+<%- column_div :type => :primary do -%>
+  <h2><span class="fn n"><%=t ('group.group_members', :group => h(@group.name)) %></span></h2>
+
+  <% if @group.people.count > Person::MAX_DEFAULT_CONTACTS or group_owner?(current_person,@group) %>
+    <div class='button_container'>
+      <%- if group_owner?(current_person,@group) -%>
+        <%= link_to t('group.edit_all_members'), members_group_path(@group) %>
+      <%- else -%>
+        <%= link_to t('group.all_members'), members_group_path(@group) %>
+      <%- end -%>
+    </div>
+  <% end %>
+  
+  <% if @group.pending_request.length > 0 and @group.owner?(current_person) %>
+    <%= render :partial => "people", 
+               :locals => {:members => (@group.pending_request), :title => t('group.pending_request')} %>
+  <% end %>
+  <%= render :partial => "people", 
+             :locals => {:members => @some_members, :title => t('group.members')} %>
+
+  <%= render :partial => "people", 
+             :locals => {:members => ([] << @group.owner), :title => t('group.admin')} %>
+
+<%- end -%>
+
+<%- column_div :type => :secondary do -%>
+  <%= render :partial => 'searches/box' %>
+<%- end -%>
+
+<div class="clear"></div>

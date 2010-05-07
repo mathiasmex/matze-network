@@ -1,0 +1,16 @@
+  <% form_for(@person.company_person, :url =>  add_company_person_path)  do |f| %>
+    <%= error_messages_for :company_person %>
+    <div class="form_row">
+      <%= collection_select(:company, :id, companies(0), :id, :name, :prompt => true) %>
+      
+      <% (Preference.find(:first).node_number-1).times do |num|%>
+        <%= render :partial => 'company_node', :locals => {:num => num }%>
+      <% end %>
+    </div>
+
+    <div class="form_row">
+      <%= f.submit "Add", :class => "button" %>
+      <input type="hidden" name="type" value="info_edit" />
+    </div>
+    
+<% end %>

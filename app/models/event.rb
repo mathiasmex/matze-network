@@ -18,8 +18,11 @@
 
 class Event < ActiveRecord::Base
   include ActivityLogger
+  require 'geokit'
+  require 'vendor/plugins/geokit-rails/init.rb'
+  acts_as_mappable
 
-  attr_accessible :title, :description
+  attr_accessible :title, :description, :start_time, :end_time, :lat, :lng, :full_address
 
   MAX_DESCRIPTION_LENGTH = MAX_STRING_LENGTH
   MAX_TITLE_LENGTH = 40
@@ -32,7 +35,6 @@ class Event < ActiveRecord::Base
   has_many :activities, :foreign_key => "item_id", :dependent => :destroy,
                         :conditions => "item_type = 'Event'"
   
-
   validates_presence_of :title, :start_time, :person, :privacy
   validates_length_of :title, :maximum => MAX_TITLE_LENGTH
   validates_length_of :description, :maximum => MAX_DESCRIPTION_LENGTH, :allow_blank => true
@@ -86,6 +88,10 @@ class Event < ActiveRecord::Base
 
   def only_contacts?
     self.privacy == PRIVACY[:contacts]
+  end
+
+  def geolocated?
+    self.lat != 0 and self.lng != 0
   end
 
   private

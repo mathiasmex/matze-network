@@ -1,0 +1,9 @@
+<h2><%=t ('event.search_by_location') %></h2>
+<% form_tag search_events_path, :method => :get, :id => "frmSearch" do %>
+  <fieldset title=<%=t('search.search')%>>
+    <%= text_field_tag :q, h(params[:q]), :id => "txtSearch", :class => "txt",
+                                          :maxlength => 50 %>
+    <%= submit_tag t('search.search'), :name => nil, :id => "btnSearch",
+                             :class => "button"  %>
+  </fieldset>
+<% end %>

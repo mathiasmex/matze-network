@@ -1,5 +1,5 @@
 <%- column_div :type => :primary do -%>
-<h2>Contacts for <%= h @person.name %></h2>
+<h2><%=t ('connection.contacts_for') %> <%= h @person.name %></h2>
 <% if @person.connections.count > Person::MAX_DEFAULT_CONTACTS %>
   <%= will_paginate @contacts %>
 <% end %>
@@ -12,7 +12,7 @@
     <%= will_paginate @contacts %>
   <% end %>
 <% else %>
-  <h3>No contacts (yet)</h3>
+  <h3><%=t ('connection.no_contacts_yet') %></h3>
 <% end -%>
 
 <%- end -%>

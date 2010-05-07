@@ -4,7 +4,7 @@ class PeopleController < ApplicationController
   skip_before_filter :admin_warning, :only => [ :show, :update ]
   before_filter :login_required, :only => [ :show, :edit, :update,
                                             :common_contacts ]
-  before_filter :correct_user_required, :only => [ :edit, :update ]
+  before_filter :correct_user_required, :only => [ :edit, :update, :invitations ]
   before_filter :setup
   
   def index
@@ -17,8 +17,9 @@ class PeopleController < ApplicationController
   
   def show
     @person = Person.find(params[:id])
+    @parent = @person
     unless @person.active? or current_person.admin?
-      flash[:error] = "That person is not active"
+      flash[:error] = t('flash.person_not_active')
       redirect_to home_url and return
     end
     if logged_in?
@@ -32,6 +33,12 @@ class PeopleController < ApplicationController
       @blog = @person.blog
       @posts = @person.blog.posts.paginate(:page => params[:page])
       @galleries = @person.galleries.paginate(:page => params[:page])
+      @groups = current_person == @person ? @person.groups : @person.groups_not_hidden
+      @some_groups = @groups[0...num_contacts]
+      @own_groups = current_person == @person ? @person.own_groups : @person.own_not_hidden_groups
+      @some_own_groups = @own_groups[0...num_contacts]
+      @events = @person.geolocated? ?
+        Event.monthly_events(Time.now).find(:all, :origin => [@person.lat,@person.lng], :within => params[:within] || 100) : []
     end
     respond_to do |format|
       format.html
@@ -58,12 +65,11 @@ class PeopleController < ApplicationController
         session[:verified_identity_url] = nil
         if global_prefs.email_verifications?
           @person.email_verifications.create
-          flash[:notice] = %(Thanks for signing up! Check your email
-                             to activate your account.)
+          flash[:notice] = t('flash.thanks_sign_up_verify_email')
           format.html { redirect_to(home_url) }
         else
           self.current_person = @person
-          flash[:notice] = "Thanks for signing up!"
+          flash[:notice] = t('flash.thanks_sign_up')
           format.html { redirect_back_or_default(home_url) }
         end
       else
@@ -90,14 +96,14 @@ class PeopleController < ApplicationController
   def verify_email
     verification = EmailVerification.find_by_code(params[:id])
     if verification.nil?
-      flash[:error] = "Invalid email verification code"
+      flash[:error] = t('flash.invalid_email_verification_code')
       redirect_to home_url
     else
       cookies.delete :auth_token
       person = verification.person
       person.email_verified = true; person.save!
       self.current_person = person
-      flash[:success] = "Email verified. Your profile is active!"
+      flash[:success] = t('flash.verified_active')
       redirect_to person
     end
   end
@@ -116,7 +122,7 @@ class PeopleController < ApplicationController
       case params[:type]
       when 'info_edit'
         if !preview? and @person.update_attributes(params[:person])
-          flash[:success] = 'Profile updated!'
+          flash[:success] = t('flash.profile_updated')
           format.html { redirect_to(@person) }
         else
           if preview?
@@ -125,8 +131,12 @@ class PeopleController < ApplicationController
           format.html { render :action => "edit" }
         end
       when 'password_edit'
+        if global_prefs.demo?
+          flash[:error] = t('flash.no_password_change_in_demo')
+          redirect_to @person and return
+        end
         if @person.change_password?(params[:person])
-          flash[:success] = 'Password changed.'
+          flash[:success] = t('flash.password_changed')
           format.html { redirect_to(@person) }
         else
           format.html { render :action => "edit" }
@@ -144,6 +154,54 @@ class PeopleController < ApplicationController
     end
   end
   
+  def add_company
+    @person = Person.find(params[:id])
+    company_id = params[:company][:id].empty? ? 0 : params[:company][:id]
+    (Preference.find(:first).node_number-1).times do |num|
+      company_id = params["company#{num}"][:id] unless params["company#{num}"].nil?
+    end
+    respond_to do |format|
+      if company_id != 0 and !@person.company_ids.include?(company_id.to_i)
+        if @person.companies.length < Preference.find(:first).number_of_companies
+          @person.companies << Company.find(company_id) unless @person.company_ids.include?(company_id.to_i)
+          flash[:success] = t('flash.company_added')
+          format.html { redirect_to(edit_person_path(@person)+"?edit=company") }
+        else
+          flash[:error] = t('flash.no_more_companies')
+          format.html { redirect_to(edit_person_path(@person)+"?edit=company") }
+        end
+      else
+        format.html { redirect_to(edit_person_path(@person)+"?edit=company") }
+      end
+    end
+  end
+  
+  def delete_company
+    @person = Person.find(params[:id])
+    @person.companies.delete(Company.find(params[:company_id]))
+    respond_to do |format|
+      flash[:success] = t('flash.company_deleted')
+      format.html { redirect_to(edit_person_path(@person)+"?edit=company") }
+    end
+  end
+    
+  def groups
+    @person = Person.find(params[:id])
+    @groups = current_person == @person ? @person.groups : @person.groups_not_hidden
+    @some_groups = @groups.paginate(:page => params[:page], :per_page => RASTER_PER_PAGE)
+    
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def admin_groups
+    @person = Person.find(params[:id])
+    @groups = current_person == @person ? @person.own_groups : @person.own_not_hidden_groups
+    @some_groups = @groups.paginate(:page => params[:page], :per_page => RASTER_PER_PAGE)
+    render :action => :groups
+  end
+
   private
 
     def setup
@@ -155,6 +213,7 @@ class PeopleController < ApplicationController
     end
     
     def preview?
-      params["commit"] == "Preview"
+      params["commit"] == t('global.preview')
     end
+
 end

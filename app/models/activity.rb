@@ -13,7 +13,7 @@
 #
 
 class Activity < ActiveRecord::Base
-  belongs_to :person
+  belongs_to :owner, :polymorphic => true
   belongs_to :item, :polymorphic => true
   has_many :feeds, :dependent => :destroy
   
@@ -28,7 +28,7 @@ class Activity < ActiveRecord::Base
   # Their 'connected with admin' item won't show up until they verify.
   def self.global_feed
     find(:all, 
-         :joins => "INNER JOIN people p ON activities.person_id = p.id",
+         :joins => "INNER JOIN people p ON activities.owner_id = p.id",
          :conditions => [%(p.deactivated = ? AND
                            (p.email_verified IS NULL OR 
                             p.email_verified = ?)), 

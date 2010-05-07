@@ -1,5 +1,5 @@
 <%- unless @requested_contacts.empty? -%>
-  <h2>Contact Requests</h2>
+  <h2><%=t ('connection.contact_requests') %></h2>
   <ul class="list requests small">
     <%- @requested_contacts.each do |contact| -%>
       <%- conn = Connection.conn(current_person, contact) -%>
@@ -9,12 +9,11 @@
         </div>
         <p><%= person_link contact %></p>
         <p class="meta published">
-          <%= time_ago_in_words(conn.created_at) %> 
-          ago
+          <%= t('global.ago', :time_ago => time_ago_in_words(conn.created_at)) %>
         </p>
         <p>
-          <%= link_to "Respond", edit_connection_path(conn) %> |
-          <%= link_to "View profile", contact %>
+          <%= link_to t('connection.respond'), edit_connection_path(conn) %> |
+          <%= link_to t('person.view_profile'), contact %>
         </p>
       </li>
     <%- end -%>

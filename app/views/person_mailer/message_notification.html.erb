@@ -1,4 +1,4 @@
-You have a new message at <%= @domain %>! Click here to retrieve it:
+<%= t('message.new_message_notification', :domain => @domain) %>
 
 http://<%= @server %>/messages/<%= @message.to_param %>
 

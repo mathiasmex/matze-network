@@ -1,0 +1,17 @@
+<div class="form_row">
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+</div>
+<div class="form_row">
+  <%= f.label :description %>
+  <p><%= formatting_note %></p>
+  <%= f.text_area :description, :cols => 80 %>
+</div>
+<% if params[:action] != "new_child" and @company.parent_id == 0 %>
+  <div class="form_row">
+    <%= f.label :web %><br />
+    <%= f.text_field :web %>
+  </div>
+<% else %>
+  <%= f.hidden_field :parent_id %>
+<% end %>

@@ -1,7 +1,7 @@
 <%- column_div :type => :primary do -%>
 
   <h2>
-  <%= link_to "Blog for #{h @blog.person.name}", blog_tab_path(@blog) %>
+  <%= link_to t('post.blog_for_person', :person => h(@blog.owner.name)), blog_tab_path(@blog) %>
   </h2>
 
   <ul class="list blog full">
@@ -9,14 +9,14 @@
   </ul>
 
   <%- unless @post.comments.empty? -%>
-  <h4 id="comments">Comments</h4>
+  <h4 id="comments"><%=t ('comment.comments') %></h4>
     <ul class="list comments full">
       <%= render :partial => 'comment', :collection => @post.comments %>
     </ul>
   <%- end -%>
 
   <%- if logged_in? -%>
-    <h4>Leave a comment</h4>
+    <h4><%=t ('comment.leave_a_comment') %></h4>
 
     <p><%= formatting_note %></p>
 
@@ -27,13 +27,9 @@
       </div>
   
       <div class="form_row">
-        <%= submit_tag "Submit", :class => "button" %>
+        <%= submit_tag t('global.submit'), :class => "button" %>
       </div>
     <% end %>
 
   <%- end -%>
 <%- end -%>
-
-  <%- column_div :type => :secondary do -%>
-    <%= render :partial => 'shared/minifeed' %>
-  <%- end -%>

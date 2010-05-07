@@ -1,7 +1,7 @@
 <% column_div :type => :primary do -%>
-<h2>New event</h2>
+<h2><%=t ('event.new_event') %></h2>
 
 <%= render :partial => 'event_form' %>
 
-<%= link_to 'Back', events_path %>
+<%= link_to t('global.back'), events_path %>
 <% end -%>

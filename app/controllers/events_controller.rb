@@ -1,12 +1,14 @@
 class EventsController < ApplicationController
 
-  before_filter :in_progress unless test?
+#  before_filter :in_progress unless test?
   before_filter :login_required
-  before_filter :load_event, :except => [:index, :new, :create]
-  before_filter :load_date, :only => [:index, :show]
+  before_filter :load_event, :except => [:index, :new, :create, :geolocate, :showlocation, :search]
+  before_filter :load_date, :only => [:index, :show, :search]
   before_filter :authorize_show, :only => :show
   before_filter :authorize_change, :only => [:edit, :update]
   before_filter :authorize_destroy, :only => :destroy
+  require 'geokit'
+  include Geokit::Geocoders
   
   def index
     @month_events = Event.monthly_events(@date).person_events(current_person)
@@ -46,11 +48,20 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event].merge(:person => current_person))
+    @event = Event.new(params[:event])
+    @event.person = current_person
+    @event.privacy = params[:event][:privacy].to_i
+    @event.start_time = params[:date][:start].to_time +
+        params[:start][:hour].to_i.hours +
+        params[:start][:minute].to_i.minutes
+    @event.end_time = params[:date][:end].to_time +
+        params[:end][:hour].to_i.hours +
+        params[:end][:minute].to_i.minutes
+    @event.full_address = (GoogleGeocoder.reverse_geocode "#{@event.lat},#{@event.lng}").full_address
 
     respond_to do |format|
       if @event.save
-        flash[:notice] = 'Event was successfully created.'
+        flash[:notice] = t('flash.event_created')
         format.html { redirect_to(@event) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
@@ -62,8 +73,17 @@ class EventsController < ApplicationController
 
   def update
     respond_to do |format|
+      params[:event][:privacy] = params[:event][:privacy].to_i
+      params[:event][:start_time] = params[:date][:start].to_datetime +
+          params[:start][:hour].to_i.hours +
+          params[:start][:minute].to_i.minutes
+      params[:event][:end_time] = params[:date][:end].to_datetime +
+          params[:end][:hour].to_i.hours +
+          params[:end][:minute].to_i.minutes
+      params[:event][:full_address] = (GoogleGeocoder.reverse_geocode "#{params[:event][:lat]},#{params[:event][:lng]}").full_address
+
       if @event.update_attributes(params[:event])
-        flash[:notice] = 'Event was successfully updated.'
+        flash[:notice] = t('flash.event_updated')
         format.html { redirect_to(@event) }
         format.xml  { head :ok }
       else
@@ -82,22 +102,37 @@ class EventsController < ApplicationController
     end
   end
 
+  def geolocate
+    @location = MultiGeocoder.geocode(params[:address])
+    @type = params[:type]
+    if @location.success
+      @coord = @location.to_a
+    end
+  end
+
+  def search
+    @events = Event.find(:all, :origin => params[:q], :within => params[:within] || 50, :order => "start_time DESC")
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def attend
     if @event.attend(current_person)
-      flash[:notice] = "You are attending this event."
+      flash[:notice] = t('flash.attending_event')
       redirect_to @event
     else
-      flash[:error] = "You can only attend once."
+      flash[:error] = t('flash.attending_only_once')
       redirect_to @event
     end
   end
 
   def unattend
     if @event.unattend(current_person)
-      flash[:notice] = "You are not attending this event."
+      flash[:notice] = t('flash.not_attending_event')
       redirect_to @event
     else
-      flash[:error] = "You are not attending this event."
+      flash[:error] = t('flash.not_attending_event')
       redirect_to @event
     end
   end
@@ -105,7 +140,7 @@ class EventsController < ApplicationController
   private
     
     def in_progress
-      flash[:notice] = "Work on this feature is in progress."
+      flash[:notice] = t('flash.work_in_progress')
       redirect_to home_url
     end
   

@@ -34,6 +34,6 @@ class BlogPost < Post
   private
   
     def log_activity
-      add_activities(:item => self, :person => blog.person)
+      add_activities(:item => self, :owner => blog.owner)
     end
 end

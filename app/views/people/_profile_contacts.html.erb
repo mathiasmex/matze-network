@@ -1,8 +1,8 @@
 <%- column_div :type => :primary do -%>
-  <h2><%= @person.name %>'s Contacts</h2>
+  <h2><%= t('person.persons_contacts', :person => @person.name) %></h2>
   <% if @person.connections.count > Person::MAX_DEFAULT_CONTACTS %>
     <div class='button see_all_link'>
-      <%= link_to "See All Contacts", person_connections_path(@person) %>
+      <%= link_to t('person.see_all_contacts'), person_connections_path(@person) %>
     </div>
   <% end %>
   <%= render :partial => 'shared/contacts_grid',

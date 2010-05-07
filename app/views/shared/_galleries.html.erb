@@ -1,6 +1,12 @@
-<h2><%= @person.name %>'s Galleries </h2>
-<% if current_person?(@person)%>
-  <%= link_to "Add Gallery", new_gallery_path %>
+<h2><%= t('gallery.persons_galleries', :person => (@parent.name)) %></h2>
+<% if params[:controller] == "people" or !params[:person_id].nil?  %>
+  <% if current_person?(@parent)%>
+    <%= link_to t('gallery.add_gallery'), new_person_gallery_path(@parent) %>
+  <% end %>
+<% else %>
+  <% if current_person?(@parent.owner) %>
+      <%= link_to t('gallery.add_gallery'), new_group_gallery_path(@parent) %>
+    <% end %>
 <% end %>
 
 <ul id="gallery_list" class="grid">

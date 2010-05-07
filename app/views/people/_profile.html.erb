@@ -1,4 +1,4 @@
-<h2><span class="fn n"><%= @person.name %></span>'s Profile</h2>
+<h2><span class="fn n"><%= t('person.profile', :person => h(@person.name)) %></span></h2>
 <%- if current_person?(@person) || current_person.admin? -%>
   <div class="button_container">
 <%- end -%>
@@ -10,20 +10,20 @@
   <%= "|" if current_person?(@person) %>
 <%- end -%>
 <%- if current_person?(@person) -%>
-  <%= link_to "Edit profile", edit_person_path(@person) %> |
-  <%= link_to "Change photo", @person.galleries.first %>
+  <%= link_to t('person.edit_profile'), edit_person_path(@person) %> |
+  <%= link_to t('photo.change_photo'), @person.galleries.first %>
 <%- end -%>
 <%- if current_person?(@person) || current_person.admin? -%>
     <div class="clear"></div>
   </div>
 <%- end -%>
 <%- if admin? and not @person.active? -%>
-  <p class="error">This person is not active</p>
+  <p class="error"><%=t ('person.not_active') %></p>
 <%- end -%>
 <%- if current_person?(@person) && current_person.description.blank? -%>
   <div class="error">
-    Your description is blank.
-    <%= link_to "Click here to add a description", 
+    <%=t ('person.description_blank_notice') %>
+    <%= link_to t('person.description_blank_link'), 
       edit_person_path(@person) %>
   </div>
 <%- end -%>
@@ -36,32 +36,32 @@
     <ul class="tools">
       <%- if logged_in? -%>
         <%- unless Connection.exists?(@person, current_person) -%>
-          <li><%= link_to "Request Connection",
+          <li><%= link_to t('connection.request_connection'),
                           person_connections_path(@person),
                           :method => :post %></li>
         <%- end -%>
         <%- if Connection.connected?(@person, current_person) -%>
-          <li>You're connected!
+          <li><%=t ('connection.connected_notice') %>
           <%= link_to image_tag('icons/user_delete.png'),
                       connection_path(Connection.conn(current_person,
                                                       @person)), 
-                          :method => :delete,
-                      :title => "Remove connection",
-             :confirm => "Are you sure you want to remove this connection?" %>
+                      :method => :delete,
+                      :title => t('connection.remove_connection'),
+                      :confirm => t('connection.remove_connection_confirmation') %>
           </li>
         <%- end -%>
           <%- if Connection.pending?(current_person, @person) -%>
           <li>
-            <%= h @person.name %> has contacted you
+            <%= t('connection.contacted_you', :person => h(@person.name)) %>
             <br />
-            (<%= link_to "respond to contact request", 
+            (<%= link_to t('connection.respond_to_request'), 
                          edit_connection_path(Connection.conn(current_person,
                                                               @person)) %>)
           </li>
           <%- end -%>
           <%- if Connection.pending?(@person, current_person) -%>
           <li>
-            You've contacted <%= h @person.name %>
+            <%= t('connection.you_contacted', :person => h(@person.name)) %>
           </li>
           <%- end -%>
         <li><%= email_link(@person) %></li>

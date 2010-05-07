@@ -48,7 +48,7 @@ describe PeopleController do
       @person.toggle!(:deactivated)
       get :show, :id => @person
       response.should redirect_to(home_url)
-      flash[:error].should =~ /not active/
+      flash[:error].should =~ Regexp.new(I18n.t('flash.person_not_active'))
     end
     
     it "should redirect to home for email unverified users" do
@@ -57,7 +57,7 @@ describe PeopleController do
       @person.should_not be_active
       get :show, :id => @person
       response.should redirect_to(home_url)
-      flash[:error].should =~ /not active/
+      flash[:error].should =~ Regexp.new(I18n.t('flash.person_not_active'))
     end
   end
   
@@ -126,7 +126,7 @@ describe PeopleController do
         
         it "should have the right notice" do
           person = create_person
-          flash[:notice].should =~ /activate your account/
+          flash[:notice].should =~ Regexp.new(I18n.t('flash.thanks_sign_up_verify_email'))
           response.should redirect_to(home_url)
         end
         

@@ -1,21 +1,21 @@
 <%- column_div :type => :primary do -%>
-  <h2>Edit gallery</h2>
+  <h2><%=t ('gallery.edit_gallery') %></h2>
 
   <%- form_for(@gallery) do |f| -%>
     <div class="form_row">
-    <%= f.label :title %>
-      <%= f.text_field :title%>
+    <%= f.label :title, t('gallery.title') %>
+    <%= f.text_field :title %>
   </div>
 
     <div class="form_row">
-    <%= f.label :description %>
+    <%= f.label :description, t('gallery.description') %>
     <p><%= formatting_note %></p>
     <%= f.text_area :description, :rows => 5 %>
   </div>
 
     <div class="form_row">
-      <%= f.submit "Update", :class => 'button' %>
-      <%= link_to "Cancel", @gallery, :class => "button" %>
+      <%= f.submit t('global.update'), :class => 'button' %>
+      <%= link_to t('global.cancel'), @gallery, :class => "button" %>
   </div>
   <%- end -%>
 <%- end -%>

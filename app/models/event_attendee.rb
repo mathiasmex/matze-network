@@ -18,7 +18,7 @@ class EventAttendee < ActiveRecord::Base
   after_create :log_activity
 
   def log_activity
-    add_activities(:item => self, :person => self.person)
+    add_activities(:item => self, :owner => self.person)
   end
 
 end

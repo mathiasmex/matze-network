@@ -1,0 +1,15 @@
+<%- if node.children.length > 0 -%>
+  <ul>
+    <%- node.children.each do |c| -%>
+      <li>
+        <%= link_to c.name, admin_company_path(c) -%>
+        <span class="small">[
+        <%= (link_to "add child", new_child_admin_company_path(c)) + " |" unless Preference.find(:first).node_number == c.ancestors.length+1 %>
+        <%= link_to "Delete", admin_company_path(c), 
+          :method => :delete,
+          :confirm => "Esto borrara todos los hijos de este nodo" %> ]</span>
+        <%= render :partial => "childs", :locals => {:node => c} -%>
+      </li>
+    <%- end -%>
+  </ul>
+<%- end -%>
